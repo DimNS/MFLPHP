@@ -1,0 +1,27 @@
+{
+    "name": "dimns/mflphp",
+    "description": "MFLPHP - Micro Framework based on Libraries PHP",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dmitrii Shcherbakov",
+            "email": "info@bestion.ru",
+            "homepage": "http://bestion.ru",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "MFLPHP\\": "src/" }
+    },
+    "require": {
+        "php": ">=5.4.0",
+        "phpmailer/phpmailer": "^5.2",
+        "vlucas/phpdotenv": "^2.2",
+        "klein/klein": "^2.1",
+        "nesbot/carbon": "^1.21",
+        "dimns/simplecsrf": "^1.0",
+        "j4mie/idiorm": "^1.5",
+        "monolog/monolog": "^1.20"
+    }
+}
