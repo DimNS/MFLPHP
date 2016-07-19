@@ -101,6 +101,14 @@ class Init
 
         // Определим корневую папку, если переменная не пустая
         if (getenv('PATH_SHORT_ROOT') !== '') {
+            // Проверяем чтобы в начале была косая
+            if (getenv('PATH_SHORT_ROOT')[0] !== '/') {
+                putenv('PATH_SHORT_ROOT=/' . getenv('PATH_SHORT_ROOT'));
+            }
+
+            // Проверяем чтобы в конце не было косой
+            putenv('PATH_SHORT_ROOT=' . rtrim(getenv('PATH_SHORT_ROOT'), '/'));
+
             $_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'], strlen(getenv('PATH_SHORT_ROOT')));
         }
 
