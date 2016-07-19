@@ -136,6 +136,22 @@ class Init
                 return new \PHPAuth\Auth($dbh, new \PHPAuth\Config($dbh, 'phpauth_config'), 'ru_RU');
             });
 
+            // Регистрируем доступ к информации о пользователе
+            $di->register('userinfo', function() use ($di) {
+                if ($di->auth->isLogged()) {
+                    $user_id = $di->auth->getSessionUID($di->auth->getSessionHash());
+
+                    $user_info = \ORM::for_table('users_info')
+                        ->where_equal('uid', $user_id)
+                        ->find_one();
+                    if (is_object($user_info)) {
+                        return $user_info;
+                    }
+                }
+
+                return false;
+            });
+
             $service->layout($_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . '/app/Views/layout-default.php');
 
             $service->csrf_token = $this->csrf_token;
