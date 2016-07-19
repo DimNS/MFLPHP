@@ -123,7 +123,7 @@ class Init
                 return new \PHPAuth\Auth($dbh, new \PHPAuth\Config($dbh, 'phpauth_config'), 'ru_RU');
             });
 
-            $service->layout($_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . '/app/Layouts/default.php');
+            $service->layout($_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . '/app/Views/layout-default.php');
 
             $service->csrf_token = $this->csrf_token;
             $service->path       = getenv('PATH_SHORT_ROOT');
