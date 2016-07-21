@@ -11,8 +11,10 @@ namespace MFLPHP\Helpers;
 class EmailSender
 {
     /**
-    * @var object $di Объект контейнера зависимостей
-    */
+     * Контейнер
+     *
+     * @var object
+     */
     protected $di;
 
     /**

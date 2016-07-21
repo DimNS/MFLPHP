@@ -11,23 +11,31 @@ namespace MFLPHP\Abstracts;
 abstract class PageController
 {
     /**
-    * @var object $request Объект запроса
-    */
+     * Объект запроса
+     *
+     * @var object
+     */
     protected $request;
 
     /**
-    * @var object $response Объект ответа
-    */
+     * Объект ответа
+     *
+     * @var object
+     */
     protected $response;
 
     /**
-    * @var object $service Объект сервисов
-    */
+     * Объект сервисов
+     *
+     * @var object
+     */
     protected $service;
 
     /**
-    * @var object $di Объект контейнера зависимостей
-    */
+     * Контейнер
+     *
+     * @var object
+     */
     protected $di;
 
     /**
