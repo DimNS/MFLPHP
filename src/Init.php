@@ -74,14 +74,16 @@ class Init
         // Устанавливаем часовой пояс по Гринвичу
         date_default_timezone_set('UTC');
 
-        // Включим страницу с ошибками
-        $whoops = new \Whoops\Run;
-        $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-        $whoops->register();
-
         // Подключим файл с настройками
         $dotenv = new \Dotenv\Dotenv($this->path_to_env, '.env');
         $dotenv->load();
+
+        // Включим страницу с ошибками, если включен режим DEBUG
+        if (getenv('DEBUG') === '1') {
+            $whoops = new \Whoops\Run;
+            $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+            $whoops->register();
+        }
 
         // Настраиваем соединение с БД
         \ORM::configure([
