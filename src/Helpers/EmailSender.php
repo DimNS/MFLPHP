@@ -61,6 +61,11 @@ class EmailSender
                     $this->di->phpmailer->AddEmbeddedImage($logo_mail, 'logotype', 'logo-mail.png', 'base64', 'image/png');
                 }
 
+                // Обрезаем конечную косую в адресе сайта (если вдруг она там есть)
+                if (isset($data['[[SITE_URL]]'])) {
+                    $data['[[SITE_URL]]'] = rtrim($data['[[SITE_URL]]'], '/');
+                }
+
                 // Связываем данные с шаблоном
                 $message  = $this->di->cfg->email_templates['header'];
                 $message .= strtr($this->di->cfg->email_templates[$message_template], $data);
