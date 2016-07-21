@@ -115,6 +115,18 @@ class Init
         // Инициируем роутер
         $klein = new \Klein\Klein();
 
+        //
+        //
+        //     `7MM"""Yb. `7MMF'
+        //       MM    `Yb. MM
+        //       MM     `Mb MM
+        //       MM      MM MM
+        //       MM     ,MP MM
+        //       MM    ,dP' MM
+        //     .JMMmmmdP' .JMML.
+        //
+        //
+
         // Создаем DI
         $klein->respond(function ($request, $response, $service, $di) {
             // Регистрируем доступ к настройкам
@@ -150,6 +162,49 @@ class Init
                 }
 
                 return false;
+            });
+
+            // Регистрируем доступ к PHPMailer
+            $di->register('phpmailer', function() use ($di) {
+                $app_root_path = $_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT');
+                $logo_mail     = $app_root_path . '/assets/img/logo-mail.png';
+
+                $phpmailer = new \PHPMailer();
+
+                $phpmailer->setLanguage('ru', $app_root_path . '/vendor/phpmailer/phpmailer/language/');
+                $phpmailer->IsHTML(true);
+                $phpmailer->CharSet = 'windows-1251';
+                $phpmailer->From = $di->auth->config->site_email;
+                $phpmailer->FromName = iconv('utf-8', 'windows-1251', $di->auth->config->site_name);
+
+                if ('1' == $di->auth->config->smtp) {
+                    $phpmailer->IsSMTP();
+                    $phpmailer->SMTPDebug  = 0;
+                    $phpmailer->SMTPAuth   = true;
+                    $phpmailer->SMTPSecure = $di->auth->config->smtp_security;
+                    $phpmailer->Host       = $di->auth->config->smtp_host;
+                    $phpmailer->Port       = $di->auth->config->smtp_port;
+                    $phpmailer->Username   = $di->auth->config->smtp_username;
+                    $phpmailer->Password   = $di->auth->config->smtp_password;
+                }
+
+                if (is_readable($logo_mail)) {
+                    $phpmailer->AddEmbeddedImage($app_root_path . '/assets/img/logo-mail.png', 'logotype', 'logo-mail.png', 'base64', 'image/png');
+                }
+
+                return $phpmailer;
+            });
+
+            // Регистрируем доступ к отправке почты
+            $di->register('mail', function() use ($di) {
+                return new \MFLPHP\Helpers\EmailSender($di);
+            });
+
+            // Регистрируем доступ к логгеру Monolog
+            $di->register('log', function() {
+                $log = new \Monolog\Logger('MainLog');
+                $log->pushHandler(new \Monolog\Handler\StreamHandler($_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . '/errors.log', \Monolog\Logger::WARNING));
+                return $log;
             });
 
             $service->layout($_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . '/app/Views/layout-default.php');
