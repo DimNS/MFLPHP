@@ -166,12 +166,9 @@ class Init
 
             // Регистрируем доступ к PHPMailer
             $di->register('phpmailer', function() use ($di) {
-                $app_root_path = $_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT');
-                $logo_mail     = $app_root_path . '/assets/img/logo-mail.png';
-
                 $phpmailer = new \PHPMailer();
 
-                $phpmailer->setLanguage('ru', $app_root_path . '/vendor/phpmailer/phpmailer/language/');
+                $phpmailer->setLanguage('ru', $di->cfg->abs_root_path . '/vendor/phpmailer/phpmailer/language/');
                 $phpmailer->IsHTML(true);
                 $phpmailer->CharSet = 'windows-1251';
                 $phpmailer->From = $di->auth->config->site_email;
@@ -188,10 +185,6 @@ class Init
                     $phpmailer->Password   = $di->auth->config->smtp_password;
                 }
 
-                if (is_readable($logo_mail)) {
-                    $phpmailer->AddEmbeddedImage($app_root_path . '/assets/img/logo-mail.png', 'logotype', 'logo-mail.png', 'base64', 'image/png');
-                }
-
                 return $phpmailer;
             });
 
@@ -201,9 +194,9 @@ class Init
             });
 
             // Регистрируем доступ к логгеру Monolog
-            $di->register('log', function() {
+            $di->register('log', function() use ($di) {
                 $log = new \Monolog\Logger('MainLog');
-                $log->pushHandler(new \Monolog\Handler\StreamHandler($_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . '/errors.log', \Monolog\Logger::WARNING));
+                $log->pushHandler(new \Monolog\Handler\StreamHandler($di->cfg->abs_root_path . '/errors.log', \Monolog\Logger::WARNING));
                 return $log;
             });
 

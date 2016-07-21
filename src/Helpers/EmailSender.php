@@ -53,6 +53,12 @@ class EmailSender
                 $this->di->phpmailer->ClearCustomHeaders();
                 $this->di->phpmailer->ClearReplyTos();
 
+                // Прикрепляем логотип для письма
+                $logo_mail = $this->di->cfg->abs_root_path . '/assets/img/logo-mail.png';
+                if (is_readable($logo_mail)) {
+                    $this->di->phpmailer->AddEmbeddedImage($logo_mail, 'logotype', 'logo-mail.png', 'base64', 'image/png');
+                }
+
                 // Связываем данные с шаблоном
                 $message  = $this->di->cfg->email_templates['header'];
                 $message .= strtr($this->di->cfg->email_templates[$message_template], $data);
