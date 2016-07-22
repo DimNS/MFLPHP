@@ -155,8 +155,9 @@ class Init
                 if ($di->auth->isLogged()) {
                     $user_id = $di->auth->getSessionUID($di->auth->getSessionHash());
 
-                    $user_info = \ORM::for_table('users_info')
-                        ->where_equal('uid', $user_id)
+                    $user_info = \ORM::for_table('users')
+                        ->join('users_info', array('users.id', '=', 'users_info.uid'))
+                        ->where_equal('id', $user_id)
                         ->find_one();
                     if (is_object($user_info)) {
                         return $user_info;
