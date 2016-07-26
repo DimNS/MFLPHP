@@ -46,16 +46,18 @@ class Init extends \MFLPHP\Abstracts\PageController
             if ($result['error'] === false) {
                 $this->response->redirect(getenv('PATH_SHORT_ROOT'), 200);
             } else {
-                $this->service->title   = $this->di->auth->config->site_name;
-                $this->service->uri     = $this->request->uri();
-                $this->service->message = $result['message'];
+                $this->service->title        = $this->di->auth->config->site_name;
+                $this->service->uri          = $this->request->uri();
+                $this->service->message_code = 'danger';
+                $this->service->message_text = $result['message'];
 
                 $this->service->render($this->service->app_root_path . '/' . $this->view_prefix . 'register.php');
             }
         } else {
-            $this->service->title   = $this->di->auth->config->site_name;
-            $this->service->uri     = $this->request->uri();
-            $this->service->message = 'Регистрация нового аккаунта';
+            $this->service->title        = $this->di->auth->config->site_name;
+            $this->service->uri          = $this->request->uri();
+            $this->service->message_code = 'primary';
+            $this->service->message_text = 'Регистрация нового аккаунта';
 
             $this->service->render($this->service->app_root_path . '/' . $this->view_prefix . 'register.php');
         }
@@ -89,9 +91,10 @@ class Init extends \MFLPHP\Abstracts\PageController
         if ($result['error'] === false) {
             $this->response->redirect(getenv('PATH_SHORT_ROOT'), 200);
         } else {
-            $this->service->title   = $this->di->auth->config->site_name;
-            $this->service->uri     = $this->request->uri();
-            $this->service->message = $result['message'];
+            $this->service->title        = $this->di->auth->config->site_name;
+            $this->service->uri          = $this->request->uri();
+            $this->service->message_code = 'danger';
+            $this->service->message_text = $result['message'];
 
             $this->service->render($this->service->app_root_path . '/' . $this->view_prefix . 'auth.php');
         }
@@ -151,9 +154,16 @@ class Init extends \MFLPHP\Abstracts\PageController
             $lost   = new ActionLost($this->di);
             $result = $lost->run($this->request->param('email'));
 
-            $this->service->message = $result['message'];
+            if ($result['error'] === false) {
+                $this->service->message_code = 'success';
+            } else {
+                $this->service->message_code = 'danger';
+            }
+
+            $this->service->message_text = $result['message'];
         } else {
-            $this->service->message = 'Сброс пароля';
+            $this->service->message_code = 'primary';
+            $this->service->message_text = 'Сброс пароля';
         }
 
         $this->service->title   = $this->di->auth->config->site_name;
@@ -194,18 +204,21 @@ class Init extends \MFLPHP\Abstracts\PageController
 
         if ($result['error'] === false) {
             if ($this->request->method('post') == true) {
-                $this->service->message = $result['message'];
+                $this->service->message_code = 'success';
+                $this->service->message_text = $result['message'];
                 $template = 'auth';
             } else {
-                $this->service->message = 'Восстановление пароля';
+                $this->service->message_code = 'primary';
+                $this->service->message_text = 'Восстановление пароля';
                 $template = 'reset';
             }
         } else {
+            $this->service->message_code = 'danger';
+            $this->service->message_text = $result['message'];
+
             if ($this->request->method('post') === true) {
-                $this->service->message = 'Восстановление пароля';
                 $template = 'reset';
             } else {
-                $this->service->message = $result['message'];
                 $template = 'auth';
             }
         }
@@ -245,8 +258,9 @@ class Init extends \MFLPHP\Abstracts\PageController
 
             $template_file = $this->view_prefix . 'profile';
         } else {
-            $this->service->title   = $this->di->auth->config->site_name;
-            $this->service->message = 'Необходимо войти в систему.';
+            $this->service->title        = $this->di->auth->config->site_name;
+            $this->service->message_code = 'primary';
+            $this->service->message_text = 'Необходимо войти в систему.';
 
             $template_file = $this->view_prefix . 'auth';
         }
