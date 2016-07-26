@@ -209,7 +209,12 @@ class Init
                 return $csrf;
             });
 
-            $service->layout($_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . '/app/Views/layout-default.php');
+            $views_path = $_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . '/app/Views/';
+
+            $service->layout($views_path . 'layout-default.php');
+
+            $service->partial_header = $views_path . 'partial-header.php';
+            $service->partial_footer = $views_path . 'partial-footer.php';
 
             $service->csrf_token = $this->csrf_token;
             $service->path       = getenv('PATH_SHORT_ROOT');
