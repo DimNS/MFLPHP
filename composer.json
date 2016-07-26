@@ -20,7 +20,7 @@
         "vlucas/phpdotenv": "^2.2",
         "klein/klein": "^2.1",
         "nesbot/carbon": "^1.21",
-        "dimns/simplecsrf": "^1.0",
+        "dimns/simplecsrf": "^2.0",
         "j4mie/idiorm": "^1.5",
         "monolog/monolog": "^1.20",
         "filp/whoops": "^2.1",

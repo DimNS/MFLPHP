@@ -34,6 +34,7 @@ class Init
      */
     public function __construct($path_to_env)
     {
+        session_start();
         $this->path_to_env = $path_to_env;
     }
 
@@ -98,8 +99,8 @@ class Init
         ]);
 
         // Инициализируем CSRF-токен
-        $csrf = new \DimNS\SimpleCSRF(uniqid());
-        $this->csrf_token = $csrf->generateToken();
+        $csrf = new \DimNS\SimpleCSRF();
+        $this->csrf_token = $csrf->getToken();
 
         // Определим корневую папку, если переменная не пустая
         if (getenv('PATH_SHORT_ROOT') !== '') {
@@ -130,7 +131,7 @@ class Init
         //
 
         // Создаем DI
-        $klein->respond(function ($request, $response, $service, $di) {
+        $klein->respond(function ($request, $response, $service, $di) use ($csrf) {
             // Регистрируем доступ к настройкам
             $di->register('cfg', function() {
                 return new \MFLPHP\Configs\Config();
@@ -201,6 +202,11 @@ class Init
                 $log = new \Monolog\Logger('MainLog');
                 $log->pushHandler(new \Monolog\Handler\StreamHandler($di->cfg->abs_root_path . '/errors.log', \Monolog\Logger::WARNING));
                 return $log;
+            });
+
+            // Регистрируем доступ к проверке CSRF-токена
+            $di->register('csrf', function() use ($csrf) {
+                return $csrf;
             });
 
             $service->layout($_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . '/app/Views/layout-default.php');
