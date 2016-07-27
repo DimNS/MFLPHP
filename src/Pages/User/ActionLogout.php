@@ -2,7 +2,7 @@
 /**
  * Выход
  *
- * @version ===
+ * @version 27.07.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -24,7 +24,7 @@ class ActionLogout
      *
      * @return null
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function __construct($di)
@@ -37,7 +37,7 @@ class ActionLogout
      *
      * @param string $hash $_COOKIE['authID']
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function run($hash)

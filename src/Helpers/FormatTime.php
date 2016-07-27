@@ -2,7 +2,7 @@
 /**
  * Форматирование временной метки в дату для записи в базу
  *
- * @version ===
+ * @version 27.07.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -17,7 +17,7 @@ class FormatTime
      *
      * @return string
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public static function convert($timestamp)

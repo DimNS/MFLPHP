@@ -2,7 +2,7 @@
 /**
  * Срабатывает при неверном CSRF-токене
  *
- * @version ===
+ * @version 27.07.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -18,7 +18,7 @@ class InvalidToken
      *
      * @return array|redirect
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public static function getResponse($request, $response)

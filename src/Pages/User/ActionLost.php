@@ -2,7 +2,7 @@
 /**
  * Запрос на восстановление пароля
  *
- * @version ===
+ * @version 27.07.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -24,7 +24,7 @@ class ActionLost
      *
      * @return null
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function __construct($di)
@@ -39,7 +39,7 @@ class ActionLost
      *
      * @return array
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function run($user_email)

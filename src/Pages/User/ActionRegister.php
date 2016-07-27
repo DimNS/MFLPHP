@@ -2,7 +2,7 @@
 /**
  * Регистрация
  *
- * @version ===
+ * @version 27.07.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -26,7 +26,7 @@ class ActionRegister
      *
      * @return null
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function __construct($di)
@@ -42,7 +42,7 @@ class ActionRegister
      *
      * @return array
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function run($user_name, $user_email)

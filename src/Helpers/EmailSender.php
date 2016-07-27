@@ -2,7 +2,7 @@
 /**
  * Класс для отправки электронных писем
  *
- * @version ===
+ * @version 27.07.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -24,7 +24,7 @@ class EmailSender
      *
      * @return null
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function __construct($di)

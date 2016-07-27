@@ -2,7 +2,7 @@
 /**
  * Смена адреса электронной почты
  *
- * @version ===
+ * @version 27.07.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -24,7 +24,7 @@ class ActionChangeEmail
      *
      * @return null
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function __construct($di)
@@ -41,7 +41,7 @@ class ActionChangeEmail
      *
      * @return array
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function run($uid, $new_email, $password)

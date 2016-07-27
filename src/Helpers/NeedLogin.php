@@ -2,7 +2,7 @@
 /**
  * Отображение формы входа
  *
- * @version ===
+ * @version 27.07.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -20,7 +20,7 @@ class NeedLogin
      *
      * @return array|redirect
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public static function getResponse($request, $response, $service, $di)

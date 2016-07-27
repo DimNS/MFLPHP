@@ -2,7 +2,7 @@
 /**
  * Контроллер пользователей
  *
- * @version ===
+ * @version 27.07.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -36,7 +36,7 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function register()
@@ -84,7 +84,7 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function login()
@@ -122,7 +122,7 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function logout()
@@ -150,7 +150,7 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function lost()
@@ -195,7 +195,7 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function reset()
@@ -254,7 +254,7 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function getProfile()
@@ -287,7 +287,7 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function changePassword()
@@ -321,7 +321,7 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function changeEmail()

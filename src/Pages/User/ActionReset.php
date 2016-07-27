@@ -2,7 +2,7 @@
 /**
  * Проверка ключа на восстановление пароля
  *
- * @version ===
+ * @version 27.07.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -32,7 +32,7 @@ class ActionReset
      *
      * @return null
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function __construct($di, $key)
@@ -46,7 +46,7 @@ class ActionReset
      *
      * @return array
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function showForm()
@@ -61,7 +61,7 @@ class ActionReset
      *
      * @return array
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function resetPassword($password)

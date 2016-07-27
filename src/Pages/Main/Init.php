@@ -2,7 +2,7 @@
 /**
  * Контроллер главной страницы
  *
- * @version ===
+ * @version 27.07.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -22,7 +22,7 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start()

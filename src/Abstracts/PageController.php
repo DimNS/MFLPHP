@@ -2,7 +2,7 @@
 /**
  * Контроллер главной страницы
  *
- * @version ===
+ * @version 27.07.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -48,7 +48,7 @@ abstract class PageController
      *
      * @return null
      *
-     * @version ===
+     * @version 27.07.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function __construct($request, $response, $service, $di)
