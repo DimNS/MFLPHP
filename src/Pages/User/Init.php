@@ -8,6 +8,8 @@
 
 namespace MFLPHP\Pages\User;
 
+use MFLPHP\Helpers\NeedLogin;
+
 class Init extends \MFLPHP\Abstracts\PageController
 {
     /**
@@ -258,22 +260,14 @@ class Init extends \MFLPHP\Abstracts\PageController
     public function getProfile()
     {
         if ($this->di->auth->isLogged()) {
+            $this->service->uri      = $this->request->uri();
             $this->service->title    = 'Мой профиль | ' . $this->di->auth->config->site_name;
             $this->service->userinfo = $this->di->userinfo;
 
-            $template_file = $this->view_prefix . 'profile';
+            $this->service->render($this->service->app_root_path . '/' . $this->view_prefix . 'profile.php');
         } else {
-            $this->service->title         = $this->di->auth->config->site_name;
-            $this->service->external_page = true;
-            $this->service->message_code  = 'primary';
-            $this->service->message_text  = 'Необходимо войти в систему.';
-
-            $template_file = $this->view_prefix . 'auth';
+            NeedLogin::getResponse($this->request, $this->response, $this->service, $this->di);
         }
-
-        $this->service->uri = $this->request->uri();
-
-        $this->service->render($this->service->app_root_path . '/' . $template_file . '.php');
     }
 
     //
@@ -303,14 +297,11 @@ class Init extends \MFLPHP\Abstracts\PageController
 
             $change_password = new ActionChangePassword($this->di);
             $result          = $change_password->run($userinfo->uid, $this->request->param('new_password'), $this->request->param('old_password'));
-        } else {
-            $result = [
-                'error'   => true,
-                'message' => 'Необходимо войти в систему.',
-            ];
-        }
 
-        $this->response->json($result);
+            $this->response->json($result);
+        } else {
+            NeedLogin::getResponse($this->request, $this->response, $this->service, $this->di);
+        }
     }
 
     //
@@ -340,13 +331,10 @@ class Init extends \MFLPHP\Abstracts\PageController
 
             $change_email = new ActionChangeEmail($this->di);
             $result       = $change_email->run($userinfo->uid, $this->request->param('new_email'), $this->request->param('password'));
-        } else {
-            $result = [
-                'error'   => true,
-                'message' => 'Необходимо войти в систему.',
-            ];
-        }
 
-        $this->response->json($result);
+            $this->response->json($result);
+        } else {
+            NeedLogin::getResponse($this->request, $this->response, $this->service, $this->di);
+        }
     }
 }
