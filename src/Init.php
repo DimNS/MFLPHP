@@ -213,9 +213,6 @@ class Init
 
             $service->layout($views_path . 'layout-default.php');
 
-            $service->partial_header = $views_path . 'partial-header.php';
-            $service->partial_footer = $views_path . 'partial-footer.php';
-
             $service->csrf_token    = $this->csrf_token;
             $service->path          = getenv('PATH_SHORT_ROOT');
             $service->app_root_path = $_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . '/app';

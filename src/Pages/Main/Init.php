@@ -32,8 +32,9 @@ class Init extends \MFLPHP\Abstracts\PageController
 
             $template_file = $this->view_prefix . 'main';
         } else {
-            $this->service->message_code = 'info';
-            $this->service->message_text = 'Необходимо войти в систему.';
+            $this->service->external_page = true;
+            $this->service->message_code  = 'info';
+            $this->service->message_text  = 'Необходимо войти в систему.';
 
             $template_file = 'Pages/User/view_auth';
         }

@@ -46,18 +46,20 @@ class Init extends \MFLPHP\Abstracts\PageController
             if ($result['error'] === false) {
                 $this->response->redirect(getenv('PATH_SHORT_ROOT'), 200);
             } else {
-                $this->service->title        = $this->di->auth->config->site_name;
-                $this->service->uri          = $this->request->uri();
-                $this->service->message_code = 'danger';
-                $this->service->message_text = $result['message'];
+                $this->service->title         = $this->di->auth->config->site_name;
+                $this->service->uri           = $this->request->uri();
+                $this->service->external_page = true;
+                $this->service->message_code  = 'danger';
+                $this->service->message_text  = $result['message'];
 
                 $this->service->render($this->service->app_root_path . '/' . $this->view_prefix . 'register.php');
             }
         } else {
-            $this->service->title        = $this->di->auth->config->site_name;
-            $this->service->uri          = $this->request->uri();
-            $this->service->message_code = 'primary';
-            $this->service->message_text = 'Регистрация нового аккаунта';
+            $this->service->title         = $this->di->auth->config->site_name;
+            $this->service->uri           = $this->request->uri();
+            $this->service->external_page = true;
+            $this->service->message_code  = 'primary';
+            $this->service->message_text  = 'Регистрация нового аккаунта';
 
             $this->service->render($this->service->app_root_path . '/' . $this->view_prefix . 'register.php');
         }
@@ -91,10 +93,11 @@ class Init extends \MFLPHP\Abstracts\PageController
         if ($result['error'] === false) {
             $this->response->redirect(getenv('PATH_SHORT_ROOT'), 200);
         } else {
-            $this->service->title        = $this->di->auth->config->site_name;
-            $this->service->uri          = $this->request->uri();
-            $this->service->message_code = 'danger';
-            $this->service->message_text = $result['message'];
+            $this->service->title         = $this->di->auth->config->site_name;
+            $this->service->uri           = $this->request->uri();
+            $this->service->external_page = true;
+            $this->service->message_code  = 'danger';
+            $this->service->message_text  = $result['message'];
 
             $this->service->render($this->service->app_root_path . '/' . $this->view_prefix . 'auth.php');
         }
@@ -166,8 +169,9 @@ class Init extends \MFLPHP\Abstracts\PageController
             $this->service->message_text = 'Сброс пароля';
         }
 
-        $this->service->title   = $this->di->auth->config->site_name;
-        $this->service->uri     = $this->request->uri();
+        $this->service->title         = $this->di->auth->config->site_name;
+        $this->service->uri           = $this->request->uri();
+        $this->service->external_page = true;
 
         $this->service->render($this->service->app_root_path . '/' . $this->view_prefix . 'lost.php');
     }
@@ -223,9 +227,10 @@ class Init extends \MFLPHP\Abstracts\PageController
             }
         }
 
-        $this->service->title   = $this->di->auth->config->site_name;
-        $this->service->uri     = $this->request->uri();
-        $this->service->key     = $this->request->param('key');
+        $this->service->title         = $this->di->auth->config->site_name;
+        $this->service->uri           = $this->request->uri();
+        $this->service->external_page = true;
+        $this->service->key           = $this->request->param('key');
 
         $this->service->render($this->service->app_root_path . '/' . $this->view_prefix . $template . '.php');
     }
@@ -258,9 +263,10 @@ class Init extends \MFLPHP\Abstracts\PageController
 
             $template_file = $this->view_prefix . 'profile';
         } else {
-            $this->service->title        = $this->di->auth->config->site_name;
-            $this->service->message_code = 'primary';
-            $this->service->message_text = 'Необходимо войти в систему.';
+            $this->service->title         = $this->di->auth->config->site_name;
+            $this->service->external_page = true;
+            $this->service->message_code  = 'primary';
+            $this->service->message_text  = 'Необходимо войти в систему.';
 
             $template_file = $this->view_prefix . 'auth';
         }
