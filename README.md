@@ -1,10 +1,13 @@
 # MFLPHP - Микро-фреймворк основанный на библиотеках
 
 ## Используемые библиотеки
-- `phpmailer/phpmailer`: отправка электронных писем.
-- `vlucas/phpdotenv`: использование настроек из файла `.env`.
-- `klein/klein`: роутер, request-response, DI, php-шаблонизатор.
-- `nesbot/carbon`: работа с датой и временем.
-- `dimns/simplecsrf`: CSRF-токены.
+- `filp/whoops`: Удобное отображение страницы с ошибками.
+- `vlucas/phpdotenv`: Использование настроек из файла `.env`.
 - `j4mie/idiorm`: Query builder для запросов к БД.
+- `dimns/simplecsrf`: CSRF-токены.
+- `klein/klein`: Роутер, request-response, DI, php-шаблонизатор.
+- `phpauth/phpauth`: Пользователи. Регистрация, аутентификация, восстановление пароля, смена пароля.
+- `phpmailer/phpmailer`: Отправка электронных писем.
 - `monolog/monolog`: Логгер.
+- `nesbot/carbon`: Работа с датой и временем.
+- `symfony/var-dumper`: Удобный дамп переменных, особенно актуально для массивов. Пример использования: `dump($var);`
