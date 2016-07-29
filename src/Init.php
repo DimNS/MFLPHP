@@ -115,6 +115,9 @@ class Init
             $_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'], strlen(getenv('PATH_SHORT_ROOT')));
         }
 
+        // Очистка данных для защиты от XSS
+        $anti_xss = new \voku\helper\AntiXSS();
+
         // Инициируем роутер
         $klein = new \Klein\Klein();
 
@@ -131,7 +134,7 @@ class Init
         //
 
         // Создаем DI
-        $klein->respond(function ($request, $response, $service, $di) use ($csrf) {
+        $klein->respond(function ($request, $response, $service, $di) use ($csrf, $anti_xss) {
             // Регистрируем доступ к настройкам
             $di->register('cfg', function() {
                 return new \MFLPHP\Configs\Config();
@@ -216,6 +219,10 @@ class Init
             $service->csrf_token    = $this->csrf_token;
             $service->path          = getenv('PATH_SHORT_ROOT');
             $service->app_root_path = $_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . '/app';
+
+            $service->xss = function($str) use ($anti_xss) {
+                return $anti_xss->xss_clean($str);
+            };
         });
 
         //
