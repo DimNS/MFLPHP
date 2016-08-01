@@ -25,6 +25,7 @@
         "monolog/monolog": "^1.20",
         "filp/whoops": "^2.1",
         "symfony/var-dumper": "^3.1",
-        "phpauth/phpauth": "^1.1"
+        "phpauth/phpauth": "^1.1",
+        "voku/anti-xss": "^2.0"
     }
 }
