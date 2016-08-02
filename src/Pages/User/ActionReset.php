@@ -2,7 +2,7 @@
 /**
  * Проверка ключа на восстановление пароля
  *
- * @version 27.07.2016
+ * @version 02.08.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -15,14 +15,14 @@ class ActionReset
      *
      * @var object
      */
-    private $di;
+    protected $di;
 
     /**
      * Ключ для восстановления пароля
      *
      * @var string
      */
-    private $key;
+    protected $key;
 
     /**
      * Конструктор
