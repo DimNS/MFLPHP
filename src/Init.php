@@ -18,14 +18,14 @@ class Init
      *
      * @var string
      */
-    private $path_to_env;
+    protected $path_to_env;
 
     /**
      * CSRF-токен
      *
      * @var string
      */
-    private $csrf_token;
+    protected $csrf_token;
 
     /**
      * Конструктор

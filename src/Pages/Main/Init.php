@@ -2,7 +2,7 @@
 /**
  * Контроллер главной страницы
  *
- * @version 27.07.2016
+ * @version 02.08.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -15,7 +15,7 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @var string
      */
-    private $view_prefix = 'Pages/Main/view_';
+    protected $view_prefix = 'Pages/Main/view_';
 
     /**
      * Запуск главной страницы
