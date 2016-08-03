@@ -2,36 +2,14 @@
 /**
  * Смена адреса электронной почты
  *
- * @version 27.07.2016
+ * @version 02.08.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Pages\User;
 
-class ActionChangeEmail
+class ActionChangeEmail extends \MFLPHP\Abstracts\ActionModel
 {
-    /**
-     * Контейнер
-     *
-     * @var object
-     */
-    private $di;
-
-    /**
-     * Конструктор
-     *
-     * @param object $di Контейнер
-     *
-     * @return null
-     *
-     * @version 27.07.2016
-     * @author Дмитрий Щербаков <atomcms@ya.ru>
-     */
-    public function __construct($di)
-    {
-        $this->di = $di;
-    }
-
     /**
      * Выполним действие
      *

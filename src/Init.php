@@ -2,7 +2,7 @@
 /**
  * Инициализация и запуск приложения
  *
- * @version 27.07.2016
+ * @version 02.08.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -18,14 +18,14 @@ class Init
      *
      * @var string
      */
-    private $path_to_env;
+    protected $path_to_env;
 
     /**
      * CSRF-токен
      *
      * @var string
      */
-    private $csrf_token;
+    protected $csrf_token;
 
     /**
      * Конструктор
@@ -115,9 +115,6 @@ class Init
             $_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'], strlen(getenv('PATH_SHORT_ROOT')));
         }
 
-        // Очистка данных для защиты от XSS
-        $anti_xss = new \voku\helper\AntiXSS();
-
         // Инициируем роутер
         $klein = new \Klein\Klein();
 
@@ -134,7 +131,7 @@ class Init
         //
 
         // Создаем DI
-        $klein->respond(function ($request, $response, $service, $di) use ($csrf, $anti_xss) {
+        $klein->respond(function ($request, $response, $service, $di) use ($csrf) {
             // Регистрируем доступ к настройкам
             $di->register('cfg', function() {
                 return new \MFLPHP\Configs\Config();
@@ -219,10 +216,6 @@ class Init
             $service->csrf_token    = $this->csrf_token;
             $service->path          = getenv('PATH_SHORT_ROOT');
             $service->app_root_path = $_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . '/app';
-
-            $service->xss = function($str) use ($anti_xss) {
-                return $anti_xss->xss_clean($str);
-            };
         });
 
         //

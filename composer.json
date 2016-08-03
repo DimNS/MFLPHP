@@ -12,6 +12,7 @@
         }
     ],
     "autoload": {
+        "files": [ "src/Functions/xss.php" ],
         "psr-4": { "MFLPHP\\": "src/" }
     },
     "require": {
