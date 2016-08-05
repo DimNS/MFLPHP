@@ -2,13 +2,11 @@
 /**
  * Контроллер пользователей
  *
- * @version 27.07.2016
+ * @version 05.08.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Pages\User;
-
-use MFLPHP\Helpers\NeedLogin;
 
 class Init extends \MFLPHP\Abstracts\PageController
 {
@@ -254,20 +252,16 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 27.07.2016
+     * @version 05.08.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function getProfile()
     {
-        if ($this->di->auth->isLogged()) {
-            $this->service->uri      = $this->request->uri();
-            $this->service->title    = 'Мой профиль | ' . $this->di->auth->config->site_name;
-            $this->service->userinfo = $this->di->userinfo;
+        $this->service->uri      = $this->request->uri();
+        $this->service->title    = 'Мой профиль | ' . $this->di->auth->config->site_name;
+        $this->service->userinfo = $this->di->userinfo;
 
-            $this->service->render($this->service->app_root_path . '/' . $this->view_prefix . 'profile.php');
-        } else {
-            NeedLogin::getResponse($this->request, $this->response, $this->service, $this->di);
-        }
+        $this->service->render($this->service->app_root_path . '/' . $this->view_prefix . 'profile.php');
     }
 
     //
@@ -287,21 +281,17 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 27.07.2016
+     * @version 05.08.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function changePassword()
     {
-        if ($this->di->auth->isLogged()) {
-            $userinfo = $this->di->userinfo;
+        $userinfo = $this->di->userinfo;
 
-            $change_password = new ActionChangePassword($this->di);
-            $result          = $change_password->run($userinfo->uid, $this->request->param('new_password'), $this->request->param('old_password'));
+        $change_password = new ActionChangePassword($this->di);
+        $result          = $change_password->run($userinfo->uid, $this->request->param('new_password'), $this->request->param('old_password'));
 
-            $this->response->json($result);
-        } else {
-            NeedLogin::getResponse($this->request, $this->response, $this->service, $this->di);
-        }
+        $this->response->json($result);
     }
 
     //
@@ -321,20 +311,16 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 27.07.2016
+     * @version 05.08.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function changeEmail()
     {
-        if ($this->di->auth->isLogged()) {
-            $userinfo = $this->di->userinfo;
+        $userinfo = $this->di->userinfo;
 
-            $change_email = new ActionChangeEmail($this->di);
-            $result       = $change_email->run($userinfo->uid, $this->request->param('new_email'), $this->request->param('password'));
+        $change_email = new ActionChangeEmail($this->di);
+        $result       = $change_email->run($userinfo->uid, $this->request->param('new_email'), $this->request->param('password'));
 
-            $this->response->json($result);
-        } else {
-            NeedLogin::getResponse($this->request, $this->response, $this->service, $this->di);
-        }
+        $this->response->json($result);
     }
 }
