@@ -2,7 +2,7 @@
 /**
  * Срабатывает при неверном CSRF-токене
  *
- * @version 02.08.2016
+ * @version 05.08.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -19,7 +19,7 @@ class InvalidToken
      *
      * @return array|redirect
      *
-     * @version 02.08.2016
+     * @version 05.08.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public static function getResponse($request, $response, $service)
@@ -32,7 +32,7 @@ class InvalidToken
         } else {
             $service->title         = 'Неверный защитный токен';
             $service->external_page = true;
-            $service->back_url      = $request->server()->get('HTTP_REFERER', getenv('PATH_SHORT_ROOT') . '/');
+            $service->back_url      = $request->server()->get('HTTP_REFERER', getenv('PATH_SHORT_ROOT'));
 
             $service->render($service->app_root_path . '/Views/invalid-token.php');
         }

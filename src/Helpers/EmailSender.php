@@ -2,7 +2,7 @@
 /**
  * Класс для отправки электронных писем
  *
- * @version 27.07.2016
+ * @version 05.08.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -41,6 +41,9 @@ class EmailSender
      * @param array  $data             Данные для подстановки в шаблон
      *
      * @return boolean
+     *
+     * @version 05.08.2016
+     * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function send($email, $subject, $message_template, $data)
     {
@@ -56,7 +59,7 @@ class EmailSender
                 $this->di->phpmailer->ClearReplyTos();
 
                 // Прикрепляем логотип для письма
-                $logo_mail = $this->di->cfg->abs_root_path . '/assets/img/logo-mail.png';
+                $logo_mail = $this->di->cfg->abs_root_path . 'assets/img/logo-mail.png';
                 if (is_readable($logo_mail)) {
                     $this->di->phpmailer->AddEmbeddedImage($logo_mail, 'logotype', 'logo-mail.png', 'base64', 'image/png');
                 }

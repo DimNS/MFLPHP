@@ -2,7 +2,7 @@
 /**
  * Инициализация и запуск приложения
  *
- * @version 02.08.2016
+ * @version 05.08.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -113,6 +113,8 @@ class Init
             putenv('PATH_SHORT_ROOT=' . rtrim(getenv('PATH_SHORT_ROOT'), '/'));
 
             $_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'], strlen(getenv('PATH_SHORT_ROOT')));
+        } else {
+            putenv('PATH_SHORT_ROOT=/');
         }
 
         // Инициируем роутер
@@ -172,7 +174,7 @@ class Init
             $di->register('phpmailer', function() use ($di) {
                 $phpmailer = new \PHPMailer();
 
-                $phpmailer->setLanguage('ru', $di->cfg->abs_root_path . '/vendor/phpmailer/phpmailer/language/');
+                $phpmailer->setLanguage('ru', $di->cfg->abs_root_path . 'vendor/phpmailer/phpmailer/language/');
                 $phpmailer->IsHTML(true);
                 $phpmailer->CharSet = 'windows-1251';
                 $phpmailer->From = $di->auth->config->site_email;
@@ -200,7 +202,7 @@ class Init
             // Регистрируем доступ к логгеру Monolog
             $di->register('log', function() use ($di) {
                 $log = new \Monolog\Logger('MainLog');
-                $log->pushHandler(new \Monolog\Handler\StreamHandler($di->cfg->abs_root_path . '/errors.log', \Monolog\Logger::WARNING));
+                $log->pushHandler(new \Monolog\Handler\StreamHandler($di->cfg->abs_root_path . 'errors.log', \Monolog\Logger::WARNING));
                 return $log;
             });
 
@@ -209,13 +211,13 @@ class Init
                 return $csrf;
             });
 
-            $views_path = $_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . '/app/Views/';
+            $views_path = $_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . 'app/Views/';
 
             $service->layout($views_path . 'layout-default.php');
 
             $service->csrf_token    = $this->csrf_token;
             $service->path          = getenv('PATH_SHORT_ROOT');
-            $service->app_root_path = $_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . '/app';
+            $service->app_root_path = $_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . 'app';
         });
 
         //
@@ -229,7 +231,7 @@ class Init
         //     .JMML.   `Ybmd9'  `Mbod"YML. `Mbmo`Mbmmd' M9mmmP'
         //
         //
-        require_once $_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . '/app/Routes.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . 'app/Routes.php';
 
         //
         //
