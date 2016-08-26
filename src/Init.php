@@ -103,9 +103,9 @@ class Init
         $this->csrf_token = $csrf->getToken();
 
         // Определим корневую папку, если переменная не пустая
-        if (getenv('PATH_SHORT_ROOT') !== '' AND getenv('PATH_SHORT_ROOT') !== '/') {
+        if (getenv('PATH_SHORT_ROOT') != '' AND getenv('PATH_SHORT_ROOT') != '/') {
             // Проверяем чтобы в начале была косая
-            if (getenv('PATH_SHORT_ROOT')[0] !== '/') {
+            if (getenv('PATH_SHORT_ROOT')[0] != '/') {
                 putenv('PATH_SHORT_ROOT=/' . getenv('PATH_SHORT_ROOT'));
             }
 
