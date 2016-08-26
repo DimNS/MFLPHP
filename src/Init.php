@@ -2,7 +2,7 @@
 /**
  * Инициализация и запуск приложения
  *
- * @version 05.08.2016
+ * @version 26.08.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -55,7 +55,7 @@ class Init
      *
      * @return null
      *
-     * @version 27.07.2016
+     * @version 26.08.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start()
@@ -103,7 +103,7 @@ class Init
         $this->csrf_token = $csrf->getToken();
 
         // Определим корневую папку, если переменная не пустая
-        if (getenv('PATH_SHORT_ROOT') !== '') {
+        if (getenv('PATH_SHORT_ROOT') !== '' AND getenv('PATH_SHORT_ROOT') !== '/') {
             // Проверяем чтобы в начале была косая
             if (getenv('PATH_SHORT_ROOT')[0] !== '/') {
                 putenv('PATH_SHORT_ROOT=/' . getenv('PATH_SHORT_ROOT'));
