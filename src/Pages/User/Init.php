@@ -2,11 +2,13 @@
 /**
  * Контроллер пользователей
  *
- * @version 05.08.2016
+ * @version 30.08.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Pages\User;
+
+use MFLPHP\Configs\Settings;
 
 class Init extends \MFLPHP\Abstracts\PageController
 {
@@ -34,7 +36,7 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 27.07.2016
+     * @version 30.08.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function register()
@@ -44,7 +46,7 @@ class Init extends \MFLPHP\Abstracts\PageController
             $result   = $register->run($this->request->param('name'), $this->request->param('email'));
 
             if ($result['error'] === false) {
-                $this->response->redirect(getenv('PATH_SHORT_ROOT'), 200);
+                $this->response->redirect(Settings::PATH_SHORT_ROOT, 200);
             } else {
                 $this->service->title         = $this->di->auth->config->site_name;
                 $this->service->uri           = $this->request->uri();
@@ -82,7 +84,7 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 27.07.2016
+     * @version 30.08.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function login()
@@ -91,7 +93,7 @@ class Init extends \MFLPHP\Abstracts\PageController
         $result = $login->run($this->request->param('email'), $this->request->param('password'));
 
         if ($result['error'] === false) {
-            $this->response->redirect(getenv('PATH_SHORT_ROOT'), 200);
+            $this->response->redirect(Settings::PATH_SHORT_ROOT, 200);
         } else {
             $this->service->title         = $this->di->auth->config->site_name;
             $this->service->uri           = $this->request->uri();
@@ -120,7 +122,7 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 27.07.2016
+     * @version 30.08.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function logout()
@@ -128,7 +130,7 @@ class Init extends \MFLPHP\Abstracts\PageController
         $logout = new ActionLogout($this->di);
         $logout->run($_COOKIE['authID']);
 
-        $this->response->redirect(getenv('PATH_SHORT_ROOT'), 200);
+        $this->response->redirect(Settings::PATH_SHORT_ROOT, 200);
     }
 
     //

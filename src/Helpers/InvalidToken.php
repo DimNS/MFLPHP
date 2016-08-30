@@ -2,11 +2,13 @@
 /**
  * Срабатывает при неверном CSRF-токене
  *
- * @version 05.08.2016
+ * @version 30.08.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Helpers;
+
+use MFLPHP\Configs\Settings;
 
 class InvalidToken
 {
@@ -19,7 +21,7 @@ class InvalidToken
      *
      * @return array|redirect
      *
-     * @version 05.08.2016
+     * @version 30.08.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public static function getResponse($request, $response, $service)
@@ -32,7 +34,7 @@ class InvalidToken
         } else {
             $service->title         = 'Неверный защитный токен';
             $service->external_page = true;
-            $service->back_url      = $request->server()->get('HTTP_REFERER', getenv('PATH_SHORT_ROOT'));
+            $service->back_url      = $request->server()->get('HTTP_REFERER', Settings::PATH_SHORT_ROOT);
 
             $service->render($service->app_root_path . '/Views/invalid-token.php');
         }

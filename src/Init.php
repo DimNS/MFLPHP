@@ -2,24 +2,18 @@
 /**
  * Инициализация и запуск приложения
  *
- * @version 26.08.2016
+ * @version 30.08.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP;
 
+use MFLPHP\Configs\Settings;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Init
 {
-    /**
-     * Путь до файла .env
-     *
-     * @var string
-     */
-    protected $path_to_env;
-
     /**
      * CSRF-токен
      *
@@ -29,13 +23,10 @@ class Init
 
     /**
      * Конструктор
-     *
-     * @param string $path_to_env    Путь до файла .env
      */
-    public function __construct($path_to_env)
+    public function __construct()
     {
         session_start();
-        $this->path_to_env = $path_to_env;
     }
 
     //
@@ -55,7 +46,7 @@ class Init
      *
      * @return null
      *
-     * @version 26.08.2016
+     * @version 30.08.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start()
@@ -75,12 +66,8 @@ class Init
         // Устанавливаем часовой пояс по Гринвичу
         date_default_timezone_set('UTC');
 
-        // Подключим файл с настройками
-        $dotenv = new \Dotenv\Dotenv($this->path_to_env, '.env');
-        $dotenv->load();
-
         // Включим страницу с ошибками, если включен режим DEBUG
-        if (getenv('DEBUG') === '1') {
+        if (Settings::DEBUG === true) {
             $whoops = new \Whoops\Run;
             $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
             $whoops->register();
@@ -88,9 +75,9 @@ class Init
 
         // Настраиваем соединение с БД
         \ORM::configure([
-            'connection_string' => 'mysql:host=' . getenv('DB_HOST') . ';port=' . getenv('DB_PORT') . ';dbname=' . getenv('DB_DATABASE'),
-            'username' => getenv('DB_USER'),
-            'password' => getenv('DB_PASSWORD'),
+            'connection_string' => 'mysql:host=' . Settings::DB_HOST . ';port=' . Settings::DB_PORT . ';dbname=' . Settings::DB_DATABASE,
+            'username' => Settings::DB_USER,
+            'password' => Settings::DB_PASSWORD,
             'driver_options' => [
                 \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
                 \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
@@ -103,18 +90,8 @@ class Init
         $this->csrf_token = $csrf->getToken();
 
         // Определим корневую папку, если переменная не пустая
-        if (getenv('PATH_SHORT_ROOT') != '' AND getenv('PATH_SHORT_ROOT') != '/') {
-            // Проверяем чтобы в начале была косая
-            if (getenv('PATH_SHORT_ROOT')[0] != '/') {
-                putenv('PATH_SHORT_ROOT=/' . getenv('PATH_SHORT_ROOT'));
-            }
-
-            // Проверяем чтобы в конце не было косой
-            putenv('PATH_SHORT_ROOT=' . rtrim(getenv('PATH_SHORT_ROOT'), '/'));
-
-            $_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'], strlen(getenv('PATH_SHORT_ROOT')));
-        } else {
-            putenv('PATH_SHORT_ROOT=/');
+        if (Settings::PATH_SHORT_ROOT != '/') {
+            $_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'], strlen(Settings::PATH_SHORT_ROOT));
         }
 
         // Инициируем роутер
@@ -141,9 +118,9 @@ class Init
 
             // Регистрируем доступ к управлению пользователем
             $di->register('auth', function() {
-                $dbh = new \PDO('mysql:host=' . getenv('DB_HOST') . ';port=' . getenv('DB_PORT') . ';dbname=' . getenv('DB_DATABASE'),
-                    getenv('DB_USER'),
-                    getenv('DB_PASSWORD'),
+                $dbh = new \PDO('mysql:host=' . Settings::DB_HOST . ';port=' . Settings::DB_PORT . ';dbname=' . Settings::DB_DATABASE,
+                    Settings::DB_USER,
+                    Settings::DB_PASSWORD,
                     [
                         \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
                         \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
@@ -211,13 +188,13 @@ class Init
                 return $csrf;
             });
 
-            $views_path = $_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . 'app/Views/';
+            $views_path = $_SERVER['DOCUMENT_ROOT'] . Settings::PATH_SHORT_ROOT . 'app/Views/';
 
             $service->layout($views_path . 'layout-default.php');
 
             $service->csrf_token    = $this->csrf_token;
-            $service->path          = getenv('PATH_SHORT_ROOT');
-            $service->app_root_path = $_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . 'app';
+            $service->path          = Settings::PATH_SHORT_ROOT;
+            $service->app_root_path = $_SERVER['DOCUMENT_ROOT'] . Settings::PATH_SHORT_ROOT . 'app';
         });
 
         //
@@ -231,7 +208,7 @@ class Init
         //     .JMML.   `Ybmd9'  `Mbod"YML. `Mbmo`Mbmmd' M9mmmP'
         //
         //
-        require_once $_SERVER['DOCUMENT_ROOT'] . getenv('PATH_SHORT_ROOT') . 'app/Routes.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] . Settings::PATH_SHORT_ROOT . 'app/Routes.php';
 
         //
         //

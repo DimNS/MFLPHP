@@ -2,7 +2,6 @@
 
 ## Используемые библиотеки
 - `filp/whoops`: Удобное отображение страницы с ошибками.
-- `vlucas/phpdotenv`: Использование настроек из файла `.env`.
 - `j4mie/idiorm`: Query builder для запросов к БД.
 - `dimns/simplecsrf`: CSRF-токены.
 - `klein/klein`: Роутер, request-response, DI, php-шаблонизатор.

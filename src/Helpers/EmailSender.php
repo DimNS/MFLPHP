@@ -2,11 +2,13 @@
 /**
  * Класс для отправки электронных писем
  *
- * @version 05.08.2016
+ * @version 30.08.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Helpers;
+
+use MFLPHP\Configs\Settings;
 
 class EmailSender
 {
@@ -42,14 +44,14 @@ class EmailSender
      *
      * @return boolean
      *
-     * @version 05.08.2016
+     * @version 30.08.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function send($email, $subject, $message_template, $data)
     {
         // Проверяем наличие шаблона
         if (isset($this->di->cfg->email_templates[$message_template])) {
-            if ('0' === getenv('PRODUCTION') AND '0' === $this->di->auth->config->smtp) {
+            if (Settings::PRODUCTION === false AND $this->di->auth->config->smtp === '0') {
                 return true;
             } else {
                 // Очищаемся от старых данных
