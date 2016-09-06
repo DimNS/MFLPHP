@@ -2,7 +2,7 @@
 /**
  * Контроллер пользователей
  *
- * @version 30.08.2016
+ * @version 06.09.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -122,13 +122,14 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 30.08.2016
+     * @version 06.09.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function logout()
     {
-        $logout = new ActionLogout($this->di);
-        $logout->run($_COOKIE['authID']);
+        if ($this->di->auth->logout($_COOKIE['authID'])) {
+            unset($_COOKIE[$this->di->auth->config->cookie_name]);
+        }
 
         $this->response->redirect(Settings::PATH_SHORT_ROOT, 200);
     }
@@ -195,17 +196,15 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 27.07.2016
+     * @version 06.09.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function reset()
     {
-        $reset = new ActionReset($this->di, $this->request->param('key'));
-
         if ($this->request->method('post') === true) {
-            $result = $reset->resetPassword($this->request->param('password'));
+            $result = $this->di->auth->resetPass($this->request->param('key'), $this->request->param('password'), $this->request->param('password'));
         } else {
-            $result = $reset->showForm();
+            $result = $this->di->auth->getRequest($this->request->param('key'), 'reset');
         }
 
         if ($result['error'] === false) {
@@ -283,16 +282,12 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 05.08.2016
+     * @version 06.09.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function changePassword()
     {
-        $userinfo = $this->di->userinfo;
-
-        $change_password = new ActionChangePassword($this->di);
-        $result          = $change_password->run($userinfo->uid, $this->request->param('new_password'), $this->request->param('old_password'));
-
+        $result = $this->di->auth->changePassword($this->di->userinfo->uid, $this->request->param('new_password'), $this->request->param('old_password'));
         $this->response->json($result);
     }
 
@@ -313,16 +308,12 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 05.08.2016
+     * @version 06.09.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function changeEmail()
     {
-        $userinfo = $this->di->userinfo;
-
-        $change_email = new ActionChangeEmail($this->di);
-        $result       = $change_email->run($userinfo->uid, $this->request->param('new_email'), $this->request->param('password'));
-
+        $result = $this->di->auth->changeEmail($this->di->userinfo->uid, $this->request->param('new_email'), $this->request->param('password'));
         $this->response->json($result);
     }
 }
