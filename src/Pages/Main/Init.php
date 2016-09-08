@@ -2,11 +2,13 @@
 /**
  * Контроллер главной страницы
  *
- * @version 05.08.2016
+ * @version 08.09.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Pages\Main;
+
+use MFLPHP\Helpers\Middleware;
 
 class Init extends \MFLPHP\Abstracts\PageController
 {
@@ -22,15 +24,20 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 05.08.2016
+     * @version 08.09.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start()
     {
-        $this->service->uri   = $this->request->uri();
-        $this->service->title = $this->di->auth->config->site_name;
-        $this->service->userinfo = $this->di->userinfo;
+        $middleware = Middleware::start($this->request, $this->response, $this->service, $this->di, [
+            'auth',
+        ]);
+        if ($middleware) {
+            $this->service->uri   = $this->request->uri();
+            $this->service->title = $this->di->auth->config->site_name;
+            $this->service->userinfo = $this->di->userinfo;
 
-        $this->service->render($this->service->app_root_path . '/' . $this->view_prefix . 'main.php');
+            $this->service->render($this->service->app_root_path . '/' . $this->view_prefix . 'main.php');
+        }
     }
 }

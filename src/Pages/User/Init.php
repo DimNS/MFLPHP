@@ -2,13 +2,14 @@
 /**
  * Контроллер пользователей
  *
- * @version 06.09.2016
+ * @version 08.09.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Pages\User;
 
 use MFLPHP\Configs\Settings;
+use MFLPHP\Helpers\Middleware;
 
 class Init extends \MFLPHP\Abstracts\PageController
 {
@@ -36,25 +37,30 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 30.08.2016
+     * @version 08.09.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function register()
     {
         if ($this->request->method('post') === true) {
-            $register = new ActionRegister($this->di);
-            $result   = $register->run($this->request->param('name'), $this->request->param('email'));
+            $middleware = Middleware::start($this->request, $this->response, $this->service, $this->di, [
+                'token',
+            ]);
+            if ($middleware) {
+                $register = new ActionRegister($this->di);
+                $result   = $register->run($this->request->param('name'), $this->request->param('email'));
 
-            if ($result['error'] === false) {
-                $this->response->redirect(Settings::PATH_SHORT_ROOT, 200);
-            } else {
-                $this->service->title         = $this->di->auth->config->site_name;
-                $this->service->uri           = $this->request->uri();
-                $this->service->external_page = true;
-                $this->service->message_code  = 'danger';
-                $this->service->message_text  = $result['message'];
+                if ($result['error'] === false) {
+                    $this->response->redirect(Settings::PATH_SHORT_ROOT, 200);
+                } else {
+                    $this->service->title         = $this->di->auth->config->site_name;
+                    $this->service->uri           = $this->request->uri();
+                    $this->service->external_page = true;
+                    $this->service->message_code  = 'danger';
+                    $this->service->message_text  = $result['message'];
 
-                $this->service->render($this->service->app_root_path . '/' . $this->view_prefix . 'register.php');
+                    $this->service->render($this->service->app_root_path . '/' . $this->view_prefix . 'register.php');
+                }
             }
         } else {
             $this->service->title         = $this->di->auth->config->site_name;
@@ -84,24 +90,29 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 30.08.2016
+     * @version 08.09.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function login()
     {
-        $login  = new ActionLogin($this->di);
-        $result = $login->run($this->request->param('email'), $this->request->param('password'));
+        $middleware = Middleware::start($this->request, $this->response, $this->service, $this->di, [
+            'token',
+        ]);
+        if ($middleware) {
+            $login  = new ActionLogin($this->di);
+            $result = $login->run($this->request->param('email'), $this->request->param('password'));
 
-        if ($result['error'] === false) {
-            $this->response->redirect(Settings::PATH_SHORT_ROOT, 200);
-        } else {
-            $this->service->title         = $this->di->auth->config->site_name;
-            $this->service->uri           = $this->request->uri();
-            $this->service->external_page = true;
-            $this->service->message_code  = 'danger';
-            $this->service->message_text  = $result['message'];
+            if ($result['error'] === false) {
+                $this->response->redirect(Settings::PATH_SHORT_ROOT, 200);
+            } else {
+                $this->service->title         = $this->di->auth->config->site_name;
+                $this->service->uri           = $this->request->uri();
+                $this->service->external_page = true;
+                $this->service->message_code  = 'danger';
+                $this->service->message_text  = $result['message'];
 
-            $this->service->render($this->service->app_root_path . '/' . $this->view_prefix . 'auth.php');
+                $this->service->render($this->service->app_root_path . '/' . $this->view_prefix . 'auth.php');
+            }
         }
     }
 
@@ -151,22 +162,27 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 27.07.2016
+     * @version 08.09.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function lost()
     {
         if ($this->request->method('post') === true) {
-            $lost   = new ActionLost($this->di);
-            $result = $lost->run($this->request->param('email'));
+            $middleware = Middleware::start($this->request, $this->response, $this->service, $this->di, [
+                'token',
+            ]);
+            if ($middleware) {
+                $lost   = new ActionLost($this->di);
+                $result = $lost->run($this->request->param('email'));
 
-            if ($result['error'] === false) {
-                $this->service->message_code = 'success';
-            } else {
-                $this->service->message_code = 'danger';
+                if ($result['error'] === false) {
+                    $this->service->message_code = 'success';
+                } else {
+                    $this->service->message_code = 'danger';
+                }
+
+                $this->service->message_text = $result['message'];
             }
-
-            $this->service->message_text = $result['message'];
         } else {
             $this->service->message_code = 'primary';
             $this->service->message_text = 'Сброс пароля';
@@ -196,13 +212,18 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 06.09.2016
+     * @version 08.09.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function reset()
     {
         if ($this->request->method('post') === true) {
-            $result = $this->di->auth->resetPass($this->request->param('key'), $this->request->param('password'), $this->request->param('password'));
+            $middleware = Middleware::start($this->request, $this->response, $this->service, $this->di, [
+                'token',
+            ]);
+            if ($middleware) {
+                $result = $this->di->auth->resetPass($this->request->param('key'), $this->request->param('password'), $this->request->param('password'));
+            }
         } else {
             $result = $this->di->auth->getRequest($this->request->param('key'), 'reset');
         }
@@ -253,16 +274,21 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 05.08.2016
+     * @version 08.09.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function getProfile()
     {
-        $this->service->uri      = $this->request->uri();
-        $this->service->title    = 'Мой профиль | ' . $this->di->auth->config->site_name;
-        $this->service->userinfo = $this->di->userinfo;
+        $middleware = Middleware::start($this->request, $this->response, $this->service, $this->di, [
+            'auth',
+        ]);
+        if ($middleware) {
+            $this->service->uri      = $this->request->uri();
+            $this->service->title    = 'Мой профиль | ' . $this->di->auth->config->site_name;
+            $this->service->userinfo = $this->di->userinfo;
 
-        $this->service->render($this->service->app_root_path . '/' . $this->view_prefix . 'profile.php');
+            $this->service->render($this->service->app_root_path . '/' . $this->view_prefix . 'profile.php');
+        }
     }
 
     //
@@ -282,13 +308,19 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 06.09.2016
+     * @version 08.09.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function changePassword()
     {
-        $result = $this->di->auth->changePassword($this->di->userinfo->uid, $this->request->param('new_password'), $this->request->param('old_password'));
-        $this->response->json($result);
+        $middleware = Middleware::start($this->request, $this->response, $this->service, $this->di, [
+            'auth',
+            'token',
+        ]);
+        if ($middleware) {
+            $result = $this->di->auth->changePassword($this->di->userinfo->uid, $this->request->param('new_password'), $this->request->param('old_password'));
+            $this->response->json($result);
+        }
     }
 
     //
@@ -308,12 +340,18 @@ class Init extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 06.09.2016
+     * @version 08.09.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function changeEmail()
     {
-        $result = $this->di->auth->changeEmail($this->di->userinfo->uid, $this->request->param('new_email'), $this->request->param('password'));
-        $this->response->json($result);
+        $middleware = Middleware::start($this->request, $this->response, $this->service, $this->di, [
+            'auth',
+            'token',
+        ]);
+        if ($middleware) {
+            $result = $this->di->auth->changeEmail($this->di->userinfo->uid, $this->request->param('new_email'), $this->request->param('password'));
+            $this->response->json($result);
+        }
     }
 }
