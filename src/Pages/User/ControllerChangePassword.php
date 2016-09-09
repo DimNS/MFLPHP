@@ -44,7 +44,7 @@ class ControllerChangePassword extends \MFLPHP\Abstracts\PageControllerUser
             'token',
         ]);
         if ($middleware) {
-            $result = $di->auth->changePassword($di->userinfo->uid, $request->param('new_password'), $request->param('old_password'));
+            $result = $di->auth->changePassword($di->userinfo->uid, $request->param('old_password'), $request->param('new_password'), $request->param('new_password'));
             $response->json($result);
         }
     }
