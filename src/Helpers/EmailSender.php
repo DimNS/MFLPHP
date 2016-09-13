@@ -2,12 +2,13 @@
 /**
  * Класс для отправки электронных писем
  *
- * @version 30.08.2016
+ * @version 13.09.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Helpers;
 
+use MFLPHP\Configs\EmailTemplates;
 use MFLPHP\Configs\Settings;
 
 class EmailSender
@@ -44,13 +45,13 @@ class EmailSender
      *
      * @return boolean
      *
-     * @version 30.08.2016
+     * @version 13.09.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function send($email, $subject, $message_template, $data)
     {
         // Проверяем наличие шаблона
-        if (isset($this->di->cfg->email_templates[$message_template])) {
+        if (constant('MFLPHP\Configs\EmailTemplates::'. $message_template) !== null) {
             if (Settings::PRODUCTION === false AND $this->di->auth->config->smtp === '0') {
                 return true;
             } else {
@@ -72,9 +73,9 @@ class EmailSender
                 }
 
                 // Связываем данные с шаблоном
-                $message  = $this->di->cfg->email_templates['header'];
-                $message .= strtr($this->di->cfg->email_templates[$message_template], $data);
-                $message .= $this->di->cfg->email_templates['footer'];
+                $message  = EmailTemplates::HEADER;
+                $message .= strtr(constant('\MFLPHP\Configs\EmailTemplates::' . $message_template), $data);
+                $message .= EmailTemplates::FOOTER;
 
                 $this->di->phpmailer->Subject = iconv('utf-8', 'windows-1251', $subject);
                 $this->di->phpmailer->MsgHTML(iconv('utf-8', 'windows-1251', $message));

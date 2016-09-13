@@ -2,7 +2,7 @@
 /**
  * Запрос на восстановление пароля
  *
- * @version 02.08.2016
+ * @version 13.09.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -17,7 +17,7 @@ class ActionLost extends \MFLPHP\Abstracts\ActionModel
      *
      * @return array
      *
-     * @version 27.07.2016
+     * @version 13.09.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function run($user_email)
@@ -46,7 +46,7 @@ class ActionLost extends \MFLPHP\Abstracts\ActionModel
                     ->find_one();
                 if (is_object($request_info)) {
                     // Отправим сообщение на почту
-                    $send_result = $this->di->mail->send($user_email, 'Запрос на изменение пароля в "' . $this->di->auth->config->site_name . '"', 'user_lost', [
+                    $send_result = $this->di->mail->send($user_email, 'Запрос на изменение пароля в "' . $this->di->auth->config->site_name . '"', 'USER_LOST', [
                         '[[SITE_NAME]]'  => $this->di->auth->config->site_name,
                         '[[SITE_URL]]'   => $this->di->auth->config->site_url,
                         '[[USER_EMAIL]]' => $user_email,

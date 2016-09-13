@@ -2,7 +2,7 @@
 /**
  * Регистрация
  *
- * @version 02.08.2016
+ * @version 13.09.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -20,7 +20,7 @@ class ActionRegister extends \MFLPHP\Abstracts\ActionModel
      *
      * @return array
      *
-     * @version 27.07.2016
+     * @version 13.09.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function run($user_name, $user_email)
@@ -49,7 +49,7 @@ class ActionRegister extends \MFLPHP\Abstracts\ActionModel
 
                 if (is_object($user_info) AND isset($user_info->id)) {
                     // Отправим сообщение на почту
-                    $this->di->mail->send($user_email, $user_name . ', добро пожаловать в "' . $this->di->auth->config->site_name . '"', 'user_register', [
+                    $this->di->mail->send($user_email, $user_name . ', добро пожаловать в "' . $this->di->auth->config->site_name . '"', 'USER_REGISTER', [
                         '[[SITE_NAME]]'     => $this->di->auth->config->site_name,
                         '[[SITE_URL]]'      => $this->di->auth->config->site_url,
                         '[[USER_EMAIL]]'    => $user_email,
