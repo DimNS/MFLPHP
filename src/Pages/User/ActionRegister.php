@@ -2,7 +2,7 @@
 /**
  * Регистрация
  *
- * @version 13.09.2016
+ * @version 14.09.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -20,7 +20,7 @@ class ActionRegister extends \MFLPHP\Abstracts\ActionModel
      *
      * @return array
      *
-     * @version 13.09.2016
+     * @version 14.09.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function run($user_name, $user_email)
@@ -30,9 +30,15 @@ class ActionRegister extends \MFLPHP\Abstracts\ActionModel
             'message' => 'Неизвестная ошибка.',
         ];
 
+        // Определим длину пароля
+        $length = 10;
+
         // Создадим временный пароль
-        $length   = ($this->di->auth->config->password_min_score > 10 ? $this->di->auth->config->password_min_score : 10);
+        $zxcvbn = new \ZxcvbnPhp\Zxcvbn();
         $password = $this->di->auth->getRandomKey($length);
+        while ($zxcvbn->passwordStrength($password)['score'] < intval($this->config->password_min_score)) {
+            $password = $this->di->auth->getRandomKey($length);
+        }
 
         // Добавим пользователя
         $registerResult = $this->di->auth->register($user_email, $password, $password);
