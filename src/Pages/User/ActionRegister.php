@@ -2,7 +2,7 @@
 /**
  * Регистрация
  *
- * @version 14.09.2016
+ * @version 16.09.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -20,7 +20,7 @@ class ActionRegister extends \MFLPHP\Abstracts\ActionModel
      *
      * @return array
      *
-     * @version 14.09.2016
+     * @version 16.09.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function run($user_name, $user_email)
@@ -36,7 +36,7 @@ class ActionRegister extends \MFLPHP\Abstracts\ActionModel
         // Создадим временный пароль
         $zxcvbn = new \ZxcvbnPhp\Zxcvbn();
         $password = $this->di->auth->getRandomKey($length);
-        while ($zxcvbn->passwordStrength($password)['score'] < intval($this->config->password_min_score)) {
+        while ($zxcvbn->passwordStrength($password)['score'] < intval($this->di->auth->config->password_min_score)) {
             $password = $this->di->auth->getRandomKey($length);
         }
 
