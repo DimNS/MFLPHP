@@ -2,7 +2,7 @@
 /**
  * Инициализация и запуск приложения
  *
- * @version 30.08.2016
+ * @version 22.09.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -46,7 +46,7 @@ class Init
      *
      * @return null
      *
-     * @version 30.08.2016
+     * @version 22.09.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start()
@@ -76,9 +76,10 @@ class Init
         // Настраиваем соединение с БД
         \ORM::configure([
             'connection_string' => 'mysql:host=' . Settings::DB_HOST . ';port=' . Settings::DB_PORT . ';dbname=' . Settings::DB_DATABASE,
-            'username' => Settings::DB_USER,
-            'password' => Settings::DB_PASSWORD,
-            'driver_options' => [
+            'username'          => Settings::DB_USER,
+            'password'          => Settings::DB_PASSWORD,
+            'logging'           => Settings::DEBUG,
+            'driver_options'    => [
                 \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
                 \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
                 \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
