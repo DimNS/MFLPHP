@@ -2,7 +2,7 @@
 /**
  * Инициализация и запуск приложения
  *
- * @version 22.09.2016
+ * @version 11.11.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -21,14 +21,6 @@ class Init
      */
     protected $csrf_token;
 
-    /**
-     * Конструктор
-     */
-    public function __construct()
-    {
-        session_start();
-    }
-
     //
     //
     //               mm                       mm
@@ -46,7 +38,7 @@ class Init
      *
      * @return null
      *
-     * @version 22.09.2016
+     * @version 11.11.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start()
@@ -65,6 +57,21 @@ class Init
 
         // Устанавливаем часовой пояс по Гринвичу
         date_default_timezone_set('UTC');
+
+        // Где будут хранится php сессии (в файлах или в БД)
+        if (Settings::PHP_SESSION === 'DB') {
+            $session = new \Zebra_Session(
+                mysqli_connect(
+                    Settings::DB_HOST,
+                    Settings::DB_USER,
+                    Settings::DB_PASSWORD,
+                    Settings::DB_DATABASE,
+                    Settings::DB_PORT
+                ), 'AVuVqYR6uwgEuhV79tln0tlKk'
+            );
+        } else {
+            session_start();
+        }
 
         // Включим страницу с ошибками, если включен режим DEBUG
         if (Settings::DEBUG === true) {
