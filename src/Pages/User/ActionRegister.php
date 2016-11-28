@@ -2,7 +2,7 @@
 /**
  * Регистрация
  *
- * @version 16.09.2016
+ * @version 28.11.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -20,7 +20,7 @@ class ActionRegister extends \MFLPHP\Abstracts\ActionModel
      *
      * @return array
      *
-     * @version 16.09.2016
+     * @version 28.11.2016
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function run($user_name, $user_email)
@@ -66,14 +66,18 @@ class ActionRegister extends \MFLPHP\Abstracts\ActionModel
                     $login  = new ActionLogin($this->di);
                     $result = $login->run($user_email, $password);
                 } else {
-                    $result['message'] = 'Произошла ошибка при изменении данных. Попробуйте войти ещё раз.';
+                    \ORM::for_table('users')
+                        ->where_equal('id', $user_id)
+                        ->delete();
+
+                    $result['message'] = 'Произошла ошибка при добавлении пользователя. Попробуйте ещё раз.';
                 }
             } else {
                 \ORM::for_table('users')
                     ->where_equal('email', $user_email)
                     ->delete();
 
-                $result['message'] = 'Данные пользователя не найдены. Попробуйте войти ещё раз.';
+                $result['message'] = 'Пользователь не зарегистрирован. Попробуйте ещё раз.';
             }
         } else {
             $result['message'] = $registerResult['message'];
