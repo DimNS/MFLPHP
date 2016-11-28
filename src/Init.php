@@ -2,7 +2,7 @@
 /**
  * Инициализация и запуск приложения
  *
- * @version 11.11.2016
+ * @version 28.11.2016
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -187,7 +187,7 @@ class Init
             // Регистрируем доступ к логгеру Monolog
             $di->register('log', function() use ($di) {
                 $log = new \Monolog\Logger('MainLog');
-                $log->pushHandler(new \Monolog\Handler\StreamHandler($di->cfg->abs_root_path . 'errors.log', \Monolog\Logger::WARNING));
+                $log->pushHandler(new \Monolog\Handler\StreamHandler($di->cfg->abs_root_path . 'errors.log', \Monolog\Logger::DEBUG));
                 return $log;
             });
 
