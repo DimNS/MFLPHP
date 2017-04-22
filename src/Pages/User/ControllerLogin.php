@@ -2,7 +2,7 @@
 /**
  * Аутентификация
  *
- * @version 09.09.2016
+ * @version 22.04.2017
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -35,7 +35,7 @@ class ControllerLogin extends \MFLPHP\Abstracts\PageControllerUser
      *
      * @return null
      *
-     * @version 09.09.2016
+     * @version 22.04.2017
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start($request, $response, $service, $di)
@@ -51,7 +51,6 @@ class ControllerLogin extends \MFLPHP\Abstracts\PageControllerUser
                 $response->redirect(Settings::PATH_SHORT_ROOT, 200);
             } else {
                 $service->title         = $di->auth->config->site_name;
-                $service->uri           = $request->uri();
                 $service->external_page = true;
                 $service->message_code  = 'danger';
                 $service->message_text  = $result['message'];

@@ -2,7 +2,7 @@
 /**
  * Контроллер главной страницы
  *
- * @version 09.09.2016
+ * @version 22.04.2017
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -34,7 +34,7 @@ class ControllerStart extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 09.09.2016
+     * @version 22.04.2017
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start($request, $response, $service, $di)
@@ -43,7 +43,6 @@ class ControllerStart extends \MFLPHP\Abstracts\PageController
             'auth',
         ]);
         if ($middleware) {
-            $service->uri      = $request->uri();
             $service->title    = $di->auth->config->site_name;
             $service->userinfo = $di->userinfo;
 

@@ -2,7 +2,7 @@
 /**
  * Отображение профиля пользователя
  *
- * @version 09.09.2016
+ * @version 22.04.2017
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -34,7 +34,7 @@ class ControllerGetProfile extends \MFLPHP\Abstracts\PageControllerUser
      *
      * @return null
      *
-     * @version 09.09.2016
+     * @version 22.04.2017
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start($request, $response, $service, $di)
@@ -43,7 +43,6 @@ class ControllerGetProfile extends \MFLPHP\Abstracts\PageControllerUser
             'auth',
         ]);
         if ($middleware) {
-            $service->uri      = $request->uri();
             $service->title    = 'Мой профиль | ' . $di->auth->config->site_name;
             $service->userinfo = $di->userinfo;
 

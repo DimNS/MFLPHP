@@ -2,12 +2,13 @@
 /**
  * Инициализация и запуск приложения
  *
- * @version 28.11.2016
+ * @version 22.04.2017
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP;
 
+use Carbon\Carbon;
 use MFLPHP\Configs\Settings;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -38,7 +39,7 @@ class Init
      *
      * @return null
      *
-     * @version 11.11.2016
+     * @version 22.04.2017
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start()
@@ -56,7 +57,7 @@ class Init
         //                                                    Ybmmmd'
 
         // Устанавливаем часовой пояс по Гринвичу
-        date_default_timezone_set('UTC');
+        date_default_timezone_set(Settings::TIMEZONE);
 
         // Где будут хранится php сессии (в файлах или в БД)
         if (Settings::PHP_SESSION === 'DB') {
@@ -119,6 +120,14 @@ class Init
 
         // Создаем DI
         $klein->respond(function ($request, $response, $service, $di) use ($csrf) {
+            // Регистрируем доступ к Carbon
+            $di->register('carbon', function () {
+                $carbon = Carbon::now(Settings::TIMEZONE);
+                $carbon->setLocale('ru');
+
+                return $carbon;
+            });
+
             // Регистрируем доступ к настройкам
             $di->register('cfg', function() {
                 return new \MFLPHP\Configs\Config();
@@ -203,6 +212,8 @@ class Init
             $service->csrf_token    = $this->csrf_token;
             $service->path          = Settings::PATH_SHORT_ROOT;
             $service->app_root_path = $_SERVER['DOCUMENT_ROOT'] . Settings::PATH_SHORT_ROOT . 'app';
+            $service->uri           = $request->uri();
+            $service->di            = $di;
         });
 
         //

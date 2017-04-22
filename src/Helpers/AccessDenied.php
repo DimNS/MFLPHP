@@ -2,7 +2,7 @@
 /**
  * Срабатывает при отсутствии определенных прав
  *
- * @version 03.08.2016
+ * @version 22.04.2017
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -19,7 +19,7 @@ class AccessDenied
      *
      * @return array|redirect
      *
-     * @version 03.08.2016
+     * @version 22.04.2017
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public static function getResponse($request, $response, $service)
@@ -31,6 +31,7 @@ class AccessDenied
             ]);
         } else {
             $service->title = 'Недостаточно прав';
+            $service->external_page = true;
             $service->render($service->app_root_path . '/Views/access-denied.php');
         }
     }

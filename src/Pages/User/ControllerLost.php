@@ -2,7 +2,7 @@
 /**
  * Запрос на восстановление пароля
  *
- * @version 09.09.2016
+ * @version 22.04.2017
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -34,7 +34,7 @@ class ControllerLost extends \MFLPHP\Abstracts\PageControllerUser
      *
      * @return null
      *
-     * @version 09.09.2016
+     * @version 22.04.2017
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start($request, $response, $service, $di)
@@ -61,7 +61,6 @@ class ControllerLost extends \MFLPHP\Abstracts\PageControllerUser
         }
 
         $service->title         = $di->auth->config->site_name;
-        $service->uri           = $request->uri();
         $service->external_page = true;
 
         $service->render($service->app_root_path . '/' . $this->view_prefix . 'lost.php');

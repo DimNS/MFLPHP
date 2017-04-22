@@ -2,7 +2,7 @@
 /**
  * Проверка ключа на восстановление пароля
  *
- * @version 09.09.2016
+ * @version 22.04.2017
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -34,7 +34,7 @@ class ControllerReset extends \MFLPHP\Abstracts\PageControllerUser
      *
      * @return null
      *
-     * @version 09.09.2016
+     * @version 22.04.2017
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start($request, $response, $service, $di)
@@ -72,7 +72,6 @@ class ControllerReset extends \MFLPHP\Abstracts\PageControllerUser
         }
 
         $service->title         = $di->auth->config->site_name;
-        $service->uri           = $request->uri();
         $service->external_page = true;
         $service->key           = $request->param('key');
 

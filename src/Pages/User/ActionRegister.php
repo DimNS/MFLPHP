@@ -2,13 +2,11 @@
 /**
  * Регистрация
  *
- * @version 28.11.2016
+ * @version 22.04.2017
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Pages\User;
-
-use MFLPHP\Helpers;
 
 class ActionRegister extends \MFLPHP\Abstracts\ActionModel
 {
@@ -20,7 +18,7 @@ class ActionRegister extends \MFLPHP\Abstracts\ActionModel
      *
      * @return array
      *
-     * @version 28.11.2016
+     * @version 22.04.2017
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function run($user_name, $user_email)
@@ -50,7 +48,7 @@ class ActionRegister extends \MFLPHP\Abstracts\ActionModel
                 $user_info->uid        = $user_id;
                 $user_info->name       = $user_name;
                 $user_info->access     = 'user';
-                $user_info->created_at = Helpers\FormatTime::convert($this->di->cfg->time);
+                $user_info->created_at = $this->di->carbon->toDateTimeString();
                 $user_info->save();
 
                 if (is_object($user_info) AND isset($user_info->id)) {
