@@ -8,6 +8,7 @@
 
 namespace MFLPHP;
 
+use Carbon\Carbon;
 use MFLPHP\Configs\Settings;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -121,7 +122,7 @@ class Init
         $klein->respond(function ($request, $response, $service, $di) use ($csrf) {
             // Регистрируем доступ к Carbon
             $di->register('carbon', function () {
-                $carbon = \Carbon::now(Settings::TIMEZONE);
+                $carbon = Carbon::now(Settings::TIMEZONE);
                 $carbon->setLocale('ru');
 
                 return $carbon;
