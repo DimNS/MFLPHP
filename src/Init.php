@@ -121,7 +121,10 @@ class Init
         $klein->respond(function ($request, $response, $service, $di) use ($csrf) {
             // Регистрируем доступ к Carbon
             $di->register('carbon', function () use ($di) {
-                return Carbon::now(Settings::TIMEZONE);
+                $carbon = Carbon::now(Settings::TIMEZONE);
+                $carbon->setLocale('ru');
+
+                return $carbon;
             });
 
             // Регистрируем доступ к настройкам
