@@ -2,7 +2,7 @@
 /**
  * Инициализация и запуск приложения
  *
- * @version 28.11.2016
+ * @version 22.04.2017
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -38,7 +38,7 @@ class Init
      *
      * @return null
      *
-     * @version 11.11.2016
+     * @version 22.04.2017
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start()
@@ -203,6 +203,7 @@ class Init
             $service->csrf_token    = $this->csrf_token;
             $service->path          = Settings::PATH_SHORT_ROOT;
             $service->app_root_path = $_SERVER['DOCUMENT_ROOT'] . Settings::PATH_SHORT_ROOT . 'app';
+            $service->uri           = $request->uri();
         });
 
         //

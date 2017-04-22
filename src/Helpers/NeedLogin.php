@@ -2,7 +2,7 @@
 /**
  * Отображение формы входа
  *
- * @version 27.07.2016
+ * @version 22.04.2017
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -20,7 +20,7 @@ class NeedLogin
      *
      * @return array|redirect
      *
-     * @version 27.07.2016
+     * @version 22.04.2017
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public static function getResponse($request, $response, $service, $di)
@@ -31,7 +31,6 @@ class NeedLogin
                 'message' => 'Необходимо войти в систему.',
             ]);
         } else {
-            $service->uri           = $request->uri();
             $service->title         = $di->auth->config->site_name;
             $service->external_page = true;
             $service->message_code  = 'primary';
