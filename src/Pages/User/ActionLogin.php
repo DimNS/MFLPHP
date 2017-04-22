@@ -2,13 +2,11 @@
 /**
  * Аутентификация
  *
- * @version 02.08.2016
+ * @version 22.04.2017
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Pages\User;
-
-use MFLPHP\Helpers;
 
 class ActionLogin extends \MFLPHP\Abstracts\ActionModel
 {
@@ -20,7 +18,7 @@ class ActionLogin extends \MFLPHP\Abstracts\ActionModel
      *
      * @return array
      *
-     * @version 27.07.2016
+     * @version 22.04.2017
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function run($user_email, $user_pass)
@@ -39,7 +37,7 @@ class ActionLogin extends \MFLPHP\Abstracts\ActionModel
                     ->where_equal('uid', $user_id)
                     ->find_one();
                 if (is_object($user_info)) {
-                    $user_info->last_login = Helpers\FormatTime::convert($this->di->cfg->time);
+                    $user_info->last_login = $this->di->carbon->toDateTimeString();
                     $user_info->save();
 
                     setcookie($this->di->auth->config->cookie_name, $loginResult['hash'], $loginResult['expire'], $this->di->auth->config->cookie_path, $this->di->auth->config->cookie_domain, $this->di->auth->config->cookie_secure, $this->di->auth->config->cookie_http);
