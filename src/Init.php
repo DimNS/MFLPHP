@@ -56,7 +56,7 @@ class Init
         //                                                    Ybmmmd'
 
         // Устанавливаем часовой пояс по Гринвичу
-        date_default_timezone_set('UTC');
+        date_default_timezone_set(Settings::TIMEZONE);
 
         // Где будут хранится php сессии (в файлах или в БД)
         if (Settings::PHP_SESSION === 'DB') {
@@ -119,6 +119,11 @@ class Init
 
         // Создаем DI
         $klein->respond(function ($request, $response, $service, $di) use ($csrf) {
+            // Регистрируем доступ к Carbon
+            $di->register('carbon', function () use ($di) {
+                return Carbon::now(Settings::TIMEZONE);
+            });
+
             // Регистрируем доступ к настройкам
             $di->register('cfg', function() {
                 return new \MFLPHP\Configs\Config();
