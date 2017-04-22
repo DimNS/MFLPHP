@@ -120,8 +120,8 @@ class Init
         // Создаем DI
         $klein->respond(function ($request, $response, $service, $di) use ($csrf) {
             // Регистрируем доступ к Carbon
-            $di->register('carbon', function () use ($di) {
-                $carbon = Carbon::now(Settings::TIMEZONE);
+            $di->register('carbon', function () {
+                $carbon = \Carbon::now(Settings::TIMEZONE);
                 $carbon->setLocale('ru');
 
                 return $carbon;
