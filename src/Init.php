@@ -212,6 +212,7 @@ class Init
             $service->path          = Settings::PATH_SHORT_ROOT;
             $service->app_root_path = $_SERVER['DOCUMENT_ROOT'] . Settings::PATH_SHORT_ROOT . 'app';
             $service->uri           = $request->uri();
+            $service->di            = $di;
         });
 
         //
