@@ -2,7 +2,7 @@
 /**
  * Регистрация
  *
- * @version 22.04.2017
+ * @version 25.04.2017
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -35,7 +35,7 @@ class ControllerRegister extends \MFLPHP\Abstracts\PageControllerUser
      *
      * @return null
      *
-     * @version 22.04.2017
+     * @version 25.04.2017
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start($request, $response, $service, $di)
@@ -62,8 +62,6 @@ class ControllerRegister extends \MFLPHP\Abstracts\PageControllerUser
         } else {
             $service->title         = $di->auth->config->site_name;
             $service->external_page = true;
-            $service->message_code  = 'primary';
-            $service->message_text  = 'Регистрация нового аккаунта';
 
             $service->render($service->app_root_path . '/' . $this->view_prefix . 'register.php');
         }

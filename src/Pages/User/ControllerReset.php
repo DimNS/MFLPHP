@@ -2,7 +2,7 @@
 /**
  * Проверка ключа на восстановление пароля
  *
- * @version 22.04.2017
+ * @version 25.04.2017
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -34,7 +34,7 @@ class ControllerReset extends \MFLPHP\Abstracts\PageControllerUser
      *
      * @return null
      *
-     * @version 22.04.2017
+     * @version 25.04.2017
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start($request, $response, $service, $di)
@@ -56,8 +56,6 @@ class ControllerReset extends \MFLPHP\Abstracts\PageControllerUser
                 $service->message_text = $result['message'];
                 $template = 'auth';
             } else {
-                $service->message_code = 'primary';
-                $service->message_text = 'Восстановление пароля';
                 $template = 'reset';
             }
         } else {

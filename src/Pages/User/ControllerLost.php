@@ -2,7 +2,7 @@
 /**
  * Запрос на восстановление пароля
  *
- * @version 22.04.2017
+ * @version 25.04.2017
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -34,7 +34,7 @@ class ControllerLost extends \MFLPHP\Abstracts\PageControllerUser
      *
      * @return null
      *
-     * @version 22.04.2017
+     * @version 25.04.2017
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start($request, $response, $service, $di)
@@ -55,9 +55,6 @@ class ControllerLost extends \MFLPHP\Abstracts\PageControllerUser
 
                 $service->message_text = $result['message'];
             }
-        } else {
-            $service->message_code = 'primary';
-            $service->message_text = 'Сброс пароля';
         }
 
         $service->title         = $di->auth->config->site_name;
