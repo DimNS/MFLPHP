@@ -10,8 +10,17 @@ namespace MFLPHP;
 
 use Carbon\Carbon;
 use MFLPHP\Configs\Settings;
+use MFLPHP\Helpers\EmailSender;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use PHPAuth\Auth;
+use PHPAuth\Config;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Whoops\Handler\JsonResponseHandler;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
+use Whoops\Util\Misc;
 
 class Init
 {
@@ -76,8 +85,16 @@ class Init
 
         // Включим страницу с ошибками, если включен режим DEBUG
         if (Settings::DEBUG === true) {
-            $whoops = new \Whoops\Run;
-            $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+            $whoops = new Run;
+            $whoops->pushHandler(new PrettyPageHandler);
+
+            if (Misc::isAjaxRequest()) {
+                $jsonHandler = new JsonResponseHandler();
+                $jsonHandler->setJsonApi(true);
+
+                $whoops->pushHandler($jsonHandler);
+            }
+
             $whoops->register();
         }
 
@@ -144,7 +161,7 @@ class Init
                         \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
                     ]
                 );
-                return new \PHPAuth\Auth($dbh, new \PHPAuth\Config($dbh, 'phpauth_config'), 'ru_RU');
+                return new Auth($dbh, new Config($dbh, 'phpauth_config'), 'ru_RU');
             });
 
             // Регистрируем доступ к информации о пользователе
@@ -190,13 +207,13 @@ class Init
 
             // Регистрируем доступ к отправке почты
             $di->register('mail', function() use ($di) {
-                return new \MFLPHP\Helpers\EmailSender($di);
+                return new EmailSender($di);
             });
 
             // Регистрируем доступ к логгеру Monolog
             $di->register('log', function() use ($di) {
-                $log = new \Monolog\Logger('MainLog');
-                $log->pushHandler(new \Monolog\Handler\StreamHandler($di->cfg->abs_root_path . 'errors.log', \Monolog\Logger::DEBUG));
+                $log = new Logger('MainLog');
+                $log->pushHandler(new StreamHandler($di->cfg->abs_root_path . 'errors.log', Logger::DEBUG));
                 return $log;
             });
 
