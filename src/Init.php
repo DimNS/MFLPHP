@@ -2,7 +2,7 @@
 /**
  * Инициализация и запуск приложения
  *
- * @version 22.04.2017
+ * @version 27.04.2017
  * @author Дмитрий Щербаков <atomcms@ya.ru>
  */
 
@@ -48,7 +48,7 @@ class Init
      *
      * @return null
      *
-     * @version 22.04.2017
+     * @version 27.04.2017
      * @author Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start()
@@ -65,8 +65,9 @@ class Init
         //                                                    6'     dP
         //                                                    Ybmmmd'
 
-        // Устанавливаем часовой пояс по Гринвичу
+        // Устанавливаем временные настройки
         date_default_timezone_set(Settings::TIMEZONE);
+        setlocale(LC_TIME, 'ru_RU.UTF-8');
 
         // Где будут хранится php сессии (в файлах или в БД)
         if (Settings::PHP_SESSION === 'DB') {
@@ -139,10 +140,7 @@ class Init
         $klein->respond(function ($request, $response, $service, $di) use ($csrf) {
             // Регистрируем доступ к Carbon
             $di->register('carbon', function () {
-                $carbon = Carbon::now(Settings::TIMEZONE);
-                $carbon->setLocale('ru');
-
-                return $carbon;
+                return Carbon::now(Settings::TIMEZONE);
             });
 
             // Регистрируем доступ к настройкам
