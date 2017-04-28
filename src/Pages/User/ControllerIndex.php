@@ -1,16 +1,17 @@
 <?php
 /**
- * Контроллер главной страницы
+ * Отображение профиля пользователя
  *
- * @version 22.04.2017
- * @author Дмитрий Щербаков <atomcms@ya.ru>
+ * @version 28.04.2017
+ * @author  Дмитрий Щербаков <atomcms@ya.ru>
  */
 
-namespace MFLPHP\Pages\Main;
+namespace MFLPHP\Pages\User;
 
+use MFLPHP\Abstracts\PageControllerUser;
 use MFLPHP\Helpers\Middleware;
 
-class ControllerStart extends \MFLPHP\Abstracts\PageController
+class ControllerIndex extends PageControllerUser
 {
     //
     //
@@ -34,8 +35,8 @@ class ControllerStart extends \MFLPHP\Abstracts\PageController
      *
      * @return null
      *
-     * @version 22.04.2017
-     * @author Дмитрий Щербаков <atomcms@ya.ru>
+     * @version 28.04.2017
+     * @author  Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start($request, $response, $service, $di)
     {
@@ -43,10 +44,10 @@ class ControllerStart extends \MFLPHP\Abstracts\PageController
             'auth',
         ]);
         if ($middleware) {
-            $service->title    = $di->auth->config->site_name;
+            $service->title = 'Мой профиль | ' . $di->auth->config->site_name;
             $service->userinfo = $di->userinfo;
 
-            $service->render($service->app_root_path . '/Pages/Main/view_main.php');
+            $service->render($service->app_root_path . '/' . $this->view_prefix . 'index.php');
         }
     }
 }
