@@ -3,15 +3,16 @@
  * Регистрация
  *
  * @version 25.04.2017
- * @author Дмитрий Щербаков <atomcms@ya.ru>
+ * @author  Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Pages\User;
 
+use MFLPHP\Abstracts\PageControllerUser;
 use MFLPHP\Configs\Settings;
 use MFLPHP\Helpers\Middleware;
 
-class ControllerRegister extends \MFLPHP\Abstracts\PageControllerUser
+class ControllerRegister extends PageControllerUser
 {
     //
     //
@@ -36,7 +37,7 @@ class ControllerRegister extends \MFLPHP\Abstracts\PageControllerUser
      * @return null
      *
      * @version 25.04.2017
-     * @author Дмитрий Щербаков <atomcms@ya.ru>
+     * @author  Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start($request, $response, $service, $di)
     {
@@ -46,24 +47,26 @@ class ControllerRegister extends \MFLPHP\Abstracts\PageControllerUser
             ]);
             if ($middleware) {
                 $register = new ActionRegister($di);
-                $result   = $register->run($request->param('name'), $request->param('email'));
+                $result = $register->run($request->param('name'), $request->param('email'));
 
                 if ($result['error'] === false) {
                     $response->redirect(Settings::PATH_SHORT_ROOT, 200);
                 } else {
-                    $service->title         = $di->auth->config->site_name;
+                    $service->title = $di->auth->config->site_name;
                     $service->external_page = true;
-                    $service->message_code  = 'danger';
-                    $service->message_text  = $result['message'];
+                    $service->message_code = 'danger';
+                    $service->message_text = $result['message'];
 
                     $service->render($service->app_root_path . '/' . $this->view_prefix . 'register.php');
                 }
             }
         } else {
-            $service->title         = $di->auth->config->site_name;
+            $service->title = $di->auth->config->site_name;
             $service->external_page = true;
 
             $service->render($service->app_root_path . '/' . $this->view_prefix . 'register.php');
         }
+
+        return;
     }
 }

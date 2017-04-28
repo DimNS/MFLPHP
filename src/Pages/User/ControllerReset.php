@@ -3,14 +3,15 @@
  * Проверка ключа на восстановление пароля
  *
  * @version 25.04.2017
- * @author Дмитрий Щербаков <atomcms@ya.ru>
+ * @author  Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Pages\User;
 
+use MFLPHP\Abstracts\PageControllerUser;
 use MFLPHP\Helpers\Middleware;
 
-class ControllerReset extends \MFLPHP\Abstracts\PageControllerUser
+class ControllerReset extends PageControllerUser
 {
     //
     //
@@ -35,10 +36,12 @@ class ControllerReset extends \MFLPHP\Abstracts\PageControllerUser
      * @return null
      *
      * @version 25.04.2017
-     * @author Дмитрий Щербаков <atomcms@ya.ru>
+     * @author  Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start($request, $response, $service, $di)
     {
+        $result = [];
+
         if ($request->method('post') === true) {
             $middleware = Middleware::start($request, $response, $service, $di, [
                 'token',
@@ -69,10 +72,12 @@ class ControllerReset extends \MFLPHP\Abstracts\PageControllerUser
             }
         }
 
-        $service->title         = $di->auth->config->site_name;
+        $service->title = $di->auth->config->site_name;
         $service->external_page = true;
-        $service->key           = $request->param('key');
+        $service->key = $request->param('key');
 
         $service->render($service->app_root_path . '/' . $this->view_prefix . $template . '.php');
+
+        return;
     }
 }

@@ -3,7 +3,7 @@
  * Шаблон контроллера страниц
  *
  * @version 09.09.2016
- * @author Дмитрий Щербаков <atomcms@ya.ru>
+ * @author  Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Abstracts;
@@ -21,7 +21,7 @@ abstract class PageController
      * @return null
      *
      * @version 09.09.2016
-     * @author Дмитрий Щербаков <atomcms@ya.ru>
+     * @author  Дмитрий Щербаков <atomcms@ya.ru>
      */
     abstract public function start($request, $response, $service, $di);
 }

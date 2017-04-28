@@ -3,7 +3,7 @@
  * Класс для отправки электронных писем
  *
  * @version 13.09.2016
- * @author Дмитрий Щербаков <atomcms@ya.ru>
+ * @author  Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Helpers;
@@ -25,10 +25,8 @@ class EmailSender
      *
      * @param object $di Объект контейнера зависимостей
      *
-     * @return null
-     *
      * @version 27.07.2016
-     * @author Дмитрий Щербаков <atomcms@ya.ru>
+     * @author  Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function __construct($di)
     {
@@ -46,12 +44,12 @@ class EmailSender
      * @return boolean
      *
      * @version 13.09.2016
-     * @author Дмитрий Щербаков <atomcms@ya.ru>
+     * @author  Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function send($email, $subject, $message_template, $data)
     {
         // Проверяем наличие шаблона
-        if (constant('MFLPHP\Configs\EmailTemplates::'. $message_template) !== null) {
+        if (constant('MFLPHP\Configs\EmailTemplates::' . $message_template) !== null) {
             if (Settings::PRODUCTION === false AND $this->di->auth->config->smtp === '0') {
                 return true;
             } else {
@@ -73,7 +71,7 @@ class EmailSender
                 }
 
                 // Связываем данные с шаблоном
-                $message  = EmailTemplates::HEADER;
+                $message = EmailTemplates::HEADER;
                 $message .= strtr(constant('\MFLPHP\Configs\EmailTemplates::' . $message_template), $data);
                 $message .= EmailTemplates::FOOTER;
 
@@ -83,6 +81,7 @@ class EmailSender
 
                 if (!$this->di->phpmailer->Send()) {
                     $this->di->log->warning('При отправке письма произошла ошибка: "' . $this->di->phpmailer->ErrorInfo . '".');
+
                     return false;
                 } else {
                     return true;
@@ -90,6 +89,7 @@ class EmailSender
             }
         } else {
             $this->di->log->warning('При отправке письма не найден шаблон: "' . $message_template . '".');
+
             return false;
         }
     }

@@ -3,15 +3,15 @@
  * Выход
  *
  * @version 09.09.2016
- * @author Дмитрий Щербаков <atomcms@ya.ru>
+ * @author  Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Pages\User;
 
+use MFLPHP\Abstracts\PageControllerUser;
 use MFLPHP\Configs\Settings;
-use MFLPHP\Helpers\Middleware;
 
-class ControllerLogout extends \MFLPHP\Abstracts\PageControllerUser
+class ControllerLogout extends PageControllerUser
 {
     //
     //
@@ -36,7 +36,7 @@ class ControllerLogout extends \MFLPHP\Abstracts\PageControllerUser
      * @return null
      *
      * @version 09.09.2016
-     * @author Дмитрий Щербаков <atomcms@ya.ru>
+     * @author  Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start($request, $response, $service, $di)
     {
@@ -45,5 +45,7 @@ class ControllerLogout extends \MFLPHP\Abstracts\PageControllerUser
         }
 
         $response->redirect(Settings::PATH_SHORT_ROOT, 200);
+
+        return;
     }
 }

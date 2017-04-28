@@ -3,7 +3,7 @@
  * Отображение формы входа
  *
  * @version 22.04.2017
- * @author Дмитрий Щербаков <atomcms@ya.ru>
+ * @author  Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Helpers;
@@ -18,10 +18,8 @@ class NeedLogin
      * @param object $service  Объект сервисов
      * @param object $di       Контейнер
      *
-     * @return array|redirect
-     *
      * @version 22.04.2017
-     * @author Дмитрий Щербаков <atomcms@ya.ru>
+     * @author  Дмитрий Щербаков <atomcms@ya.ru>
      */
     public static function getResponse($request, $response, $service, $di)
     {
@@ -31,10 +29,10 @@ class NeedLogin
                 'message' => 'Необходимо войти в систему.',
             ]);
         } else {
-            $service->title         = $di->auth->config->site_name;
+            $service->title = $di->auth->config->site_name;
             $service->external_page = true;
-            $service->message_code  = 'primary';
-            $service->message_text  = 'Необходимо войти в систему.';
+            $service->message_code = 'primary';
+            $service->message_text = 'Необходимо войти в систему.';
 
             $service->render($service->app_root_path . '/Pages/User/view_auth.php');
         }

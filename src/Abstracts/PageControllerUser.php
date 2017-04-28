@@ -3,12 +3,12 @@
  * Шаблон контроллера страниц для работы с пользователем
  *
  * @version 09.09.2016
- * @author Дмитрий Щербаков <atomcms@ya.ru>
+ * @author  Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Abstracts;
 
-abstract class PageControllerUser extends \MFLPHP\Abstracts\PageController
+abstract class PageControllerUser extends PageController
 {
     /**
      * Префикс для подстановки в путь до представления

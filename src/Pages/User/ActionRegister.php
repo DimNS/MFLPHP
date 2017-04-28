@@ -3,12 +3,14 @@
  * Регистрация
  *
  * @version 22.04.2017
- * @author Дмитрий Щербаков <atomcms@ya.ru>
+ * @author  Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Pages\User;
 
-class ActionRegister extends \MFLPHP\Abstracts\ActionModel
+use MFLPHP\Abstracts\ActionModel;
+
+class ActionRegister extends ActionModel
 {
     /**
      * Выполним действие
@@ -19,7 +21,7 @@ class ActionRegister extends \MFLPHP\Abstracts\ActionModel
      * @return array
      *
      * @version 22.04.2017
-     * @author Дмитрий Щербаков <atomcms@ya.ru>
+     * @author  Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function run($user_name, $user_email)
     {
@@ -45,9 +47,9 @@ class ActionRegister extends \MFLPHP\Abstracts\ActionModel
             $user_id = $this->di->auth->getUID($user_email);
             if ($user_id !== false) {
                 $user_info = \ORM::for_table('users_info')->create();
-                $user_info->uid        = $user_id;
-                $user_info->name       = $user_name;
-                $user_info->access     = 'user';
+                $user_info->uid = $user_id;
+                $user_info->name = $user_name;
+                $user_info->access = 'user';
                 $user_info->created_at = $this->di->carbon->toDateTimeString();
                 $user_info->save();
 
@@ -61,7 +63,7 @@ class ActionRegister extends \MFLPHP\Abstracts\ActionModel
                     ]);
 
                     // Войдем под этим пользователем
-                    $login  = new ActionLogin($this->di);
+                    $login = new ActionLogin($this->di);
                     $result = $login->run($user_email, $password);
                 } else {
                     \ORM::for_table('users')

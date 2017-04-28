@@ -3,14 +3,15 @@
  * Запрос на восстановление пароля
  *
  * @version 25.04.2017
- * @author Дмитрий Щербаков <atomcms@ya.ru>
+ * @author  Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Pages\User;
 
+use MFLPHP\Abstracts\PageControllerUser;
 use MFLPHP\Helpers\Middleware;
 
-class ControllerLost extends \MFLPHP\Abstracts\PageControllerUser
+class ControllerLost extends PageControllerUser
 {
     //
     //
@@ -35,7 +36,7 @@ class ControllerLost extends \MFLPHP\Abstracts\PageControllerUser
      * @return null
      *
      * @version 25.04.2017
-     * @author Дмитрий Щербаков <atomcms@ya.ru>
+     * @author  Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start($request, $response, $service, $di)
     {
@@ -44,7 +45,7 @@ class ControllerLost extends \MFLPHP\Abstracts\PageControllerUser
                 'token',
             ]);
             if ($middleware) {
-                $lost   = new ActionLost($di);
+                $lost = new ActionLost($di);
                 $result = $lost->run($request->param('email'));
 
                 if ($result['error'] === false) {
@@ -57,9 +58,11 @@ class ControllerLost extends \MFLPHP\Abstracts\PageControllerUser
             }
         }
 
-        $service->title         = $di->auth->config->site_name;
+        $service->title = $di->auth->config->site_name;
         $service->external_page = true;
 
         $service->render($service->app_root_path . '/' . $this->view_prefix . 'lost.php');
+
+        return;
     }
 }

@@ -3,7 +3,7 @@
  * Срабатывает при отсутствии определенных прав
  *
  * @version 22.04.2017
- * @author Дмитрий Щербаков <atomcms@ya.ru>
+ * @author  Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Helpers;
@@ -17,10 +17,8 @@ class AccessDenied
      * @param object $response Объект ответа
      * @param object $service  Объект сервисов
      *
-     * @return array|redirect
-     *
      * @version 22.04.2017
-     * @author Дмитрий Щербаков <atomcms@ya.ru>
+     * @author  Дмитрий Щербаков <atomcms@ya.ru>
      */
     public static function getResponse($request, $response, $service)
     {
@@ -34,5 +32,7 @@ class AccessDenied
             $service->external_page = true;
             $service->render($service->app_root_path . '/Views/access-denied.php');
         }
+
+        return;
     }
 }

@@ -3,7 +3,7 @@
  * Инициализация и запуск приложения
  *
  * @version 27.04.2017
- * @author Дмитрий Щербаков <atomcms@ya.ru>
+ * @author  Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP;
@@ -46,10 +46,8 @@ class Init
     /**
      * Старт приложения
      *
-     * @return null
-     *
      * @version 27.04.2017
-     * @author Дмитрий Щербаков <atomcms@ya.ru>
+     * @author  Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start()
     {
@@ -71,7 +69,7 @@ class Init
 
         // Где будут хранится php сессии (в файлах или в БД)
         if (Settings::PHP_SESSION === 'DB') {
-            $session = new \Zebra_Session(
+            new \Zebra_Session(
                 mysqli_connect(
                     Settings::DB_HOST,
                     Settings::DB_USER,
@@ -144,12 +142,12 @@ class Init
             });
 
             // Регистрируем доступ к настройкам
-            $di->register('cfg', function() {
+            $di->register('cfg', function () {
                 return new \MFLPHP\Configs\Config();
             });
 
             // Регистрируем доступ к управлению пользователем
-            $di->register('auth', function() {
+            $di->register('auth', function () {
                 $dbh = new \PDO('mysql:host=' . Settings::DB_HOST . ';port=' . Settings::DB_PORT . ';dbname=' . Settings::DB_DATABASE,
                     Settings::DB_USER,
                     Settings::DB_PASSWORD,
@@ -159,16 +157,17 @@ class Init
                         \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
                     ]
                 );
+
                 return new Auth($dbh, new Config($dbh, 'phpauth_config'), 'ru_RU');
             });
 
             // Регистрируем доступ к информации о пользователе
-            $di->register('userinfo', function() use ($di) {
+            $di->register('userinfo', function () use ($di) {
                 if ($di->auth->isLogged()) {
                     $user_id = $di->auth->getSessionUID($di->auth->getSessionHash());
 
                     $user_info = \ORM::for_table('users')
-                        ->join('users_info', array('users.id', '=', 'users_info.uid'))
+                        ->join('users_info', ['users.id', '=', 'users_info.uid'])
                         ->where_equal('id', $user_id)
                         ->find_one();
                     if (is_object($user_info)) {
@@ -180,7 +179,7 @@ class Init
             });
 
             // Регистрируем доступ к PHPMailer
-            $di->register('phpmailer', function() use ($di) {
+            $di->register('phpmailer', function () use ($di) {
                 $phpmailer = new \PHPMailer();
 
                 $phpmailer->setLanguage('ru', $di->cfg->abs_root_path . 'vendor/phpmailer/phpmailer/language/');
@@ -191,32 +190,33 @@ class Init
 
                 if ('1' == $di->auth->config->smtp) {
                     $phpmailer->IsSMTP();
-                    $phpmailer->SMTPDebug  = 0;
-                    $phpmailer->SMTPAuth   = true;
+                    $phpmailer->SMTPDebug = 0;
+                    $phpmailer->SMTPAuth = true;
                     $phpmailer->SMTPSecure = $di->auth->config->smtp_security;
-                    $phpmailer->Host       = $di->auth->config->smtp_host;
-                    $phpmailer->Port       = $di->auth->config->smtp_port;
-                    $phpmailer->Username   = $di->auth->config->smtp_username;
-                    $phpmailer->Password   = $di->auth->config->smtp_password;
+                    $phpmailer->Host = $di->auth->config->smtp_host;
+                    $phpmailer->Port = $di->auth->config->smtp_port;
+                    $phpmailer->Username = $di->auth->config->smtp_username;
+                    $phpmailer->Password = $di->auth->config->smtp_password;
                 }
 
                 return $phpmailer;
             });
 
             // Регистрируем доступ к отправке почты
-            $di->register('mail', function() use ($di) {
+            $di->register('mail', function () use ($di) {
                 return new EmailSender($di);
             });
 
             // Регистрируем доступ к логгеру Monolog
-            $di->register('log', function() use ($di) {
+            $di->register('log', function () use ($di) {
                 $log = new Logger('MainLog');
                 $log->pushHandler(new StreamHandler($di->cfg->abs_root_path . 'errors.log', Logger::DEBUG));
+
                 return $log;
             });
 
             // Регистрируем доступ к проверке CSRF-токена
-            $di->register('csrf', function() use ($csrf) {
+            $di->register('csrf', function () use ($csrf) {
                 return $csrf;
             });
 
@@ -224,11 +224,11 @@ class Init
 
             $service->layout($views_path . 'layout-default.php');
 
-            $service->csrf_token    = $this->csrf_token;
-            $service->path          = Settings::PATH_SHORT_ROOT;
+            $service->csrf_token = $this->csrf_token;
+            $service->path = Settings::PATH_SHORT_ROOT;
             $service->app_root_path = $_SERVER['DOCUMENT_ROOT'] . Settings::PATH_SHORT_ROOT . 'app';
-            $service->uri           = $request->uri();
-            $service->di            = $di;
+            $service->uri = $request->uri();
+            $service->di = $di;
         });
 
         //

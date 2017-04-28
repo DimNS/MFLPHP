@@ -3,7 +3,7 @@
  * Модель действия
  *
  * @version 02.08.2016
- * @author Дмитрий Щербаков <atomcms@ya.ru>
+ * @author  Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Abstracts;
@@ -22,10 +22,8 @@ abstract class ActionModel
      *
      * @param object $di Контейнер
      *
-     * @return null
-     *
      * @version 02.08.2016
-     * @author Дмитрий Щербаков <atomcms@ya.ru>
+     * @author  Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function __construct($di)
     {

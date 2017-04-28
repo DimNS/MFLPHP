@@ -7,7 +7,7 @@
  * @return string Очищенная строка
  *
  * @version 02.08.2016
- * @author Дмитрий Щербаков <atomcms@ya.ru>
+ * @author  Дмитрий Щербаков <atomcms@ya.ru>
  */
 function xss($str)
 {

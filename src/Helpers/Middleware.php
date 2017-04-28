@@ -3,7 +3,7 @@
  * Промежуточный слой для проверки пользователь в системе, валидный токен, есть права доступа
  *
  * @version 05.08.2016
- * @author Дмитрий Щербаков <atomcms@ya.ru>
+ * @author  Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Helpers;
@@ -22,7 +22,7 @@ class Middleware
      * @return null
      *
      * @version 05.08.2016
-     * @author Дмитрий Щербаков <atomcms@ya.ru>
+     * @author  Дмитрий Щербаков <atomcms@ya.ru>
      */
     public static function start($request, $response, $service, $di, $actions)
     {
@@ -32,7 +32,8 @@ class Middleware
                     case 'auth':
                         if ($di->auth->isLogged() === false) {
                             NeedLogin::getResponse($request, $response, $service, $di);
-                            return null;
+
+                            return false;
                         }
                         break;
 
@@ -40,12 +41,14 @@ class Middleware
                         if ($request->server()->get('HTTP_X_CSRFTOKEN', '') === '') {
                             if ($di->csrf->validateToken($request->param('_token')) === false) {
                                 InvalidToken::getResponse($request, $response, $service);
-                                return null;
+
+                                return false;
                             }
                         } else {
                             if ($di->csrf->validateToken($request->server()->get('HTTP_X_CSRFTOKEN', '')) === false) {
                                 InvalidToken::getResponse($request, $response, $service);
-                                return null;
+
+                                return false;
                             }
                         }
                         break;
@@ -53,7 +56,8 @@ class Middleware
                     case 'access-admin':
                         if ($di->userinfo->access !== 'admin') {
                             AccessDenied::getResponse($request, $response, $service);
-                            return null;
+
+                            return false;
                         }
                         break;
                 }

@@ -3,14 +3,15 @@
  * Запрос на смену адреса электронной почты
  *
  * @version 09.09.2016
- * @author Дмитрий Щербаков <atomcms@ya.ru>
+ * @author  Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Pages\User;
 
+use MFLPHP\Abstracts\PageControllerUser;
 use MFLPHP\Helpers\Middleware;
 
-class ControllerChangeEmail extends \MFLPHP\Abstracts\PageControllerUser
+class ControllerChangeEmail extends PageControllerUser
 {
     //
     //
@@ -35,7 +36,7 @@ class ControllerChangeEmail extends \MFLPHP\Abstracts\PageControllerUser
      * @return null
      *
      * @version 09.09.2016
-     * @author Дмитрий Щербаков <atomcms@ya.ru>
+     * @author  Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start($request, $response, $service, $di)
     {
@@ -47,5 +48,7 @@ class ControllerChangeEmail extends \MFLPHP\Abstracts\PageControllerUser
             $result = $di->auth->changeEmail($di->userinfo->uid, $request->param('new_email'), $request->param('password'));
             $response->json($result);
         }
+
+        return;
     }
 }

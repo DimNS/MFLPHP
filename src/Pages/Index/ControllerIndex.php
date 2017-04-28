@@ -49,5 +49,7 @@ class ControllerIndex extends PageController
 
             $service->render($service->app_root_path . '/Pages/Index/view_index.php');
         }
+
+        return;
     }
 }

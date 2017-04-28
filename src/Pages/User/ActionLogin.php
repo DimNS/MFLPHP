@@ -3,12 +3,14 @@
  * Аутентификация
  *
  * @version 22.04.2017
- * @author Дмитрий Щербаков <atomcms@ya.ru>
+ * @author  Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Pages\User;
 
-class ActionLogin extends \MFLPHP\Abstracts\ActionModel
+use MFLPHP\Abstracts\ActionModel;
+
+class ActionLogin extends ActionModel
 {
     /**
      * Выполним действие
@@ -19,7 +21,7 @@ class ActionLogin extends \MFLPHP\Abstracts\ActionModel
      * @return array
      *
      * @version 22.04.2017
-     * @author Дмитрий Щербаков <atomcms@ya.ru>
+     * @author  Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function run($user_email, $user_pass)
     {

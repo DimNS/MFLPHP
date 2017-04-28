@@ -3,15 +3,16 @@
  * Аутентификация
  *
  * @version 22.04.2017
- * @author Дмитрий Щербаков <atomcms@ya.ru>
+ * @author  Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Pages\User;
 
+use MFLPHP\Abstracts\PageControllerUser;
 use MFLPHP\Configs\Settings;
 use MFLPHP\Helpers\Middleware;
 
-class ControllerLogin extends \MFLPHP\Abstracts\PageControllerUser
+class ControllerLogin extends PageControllerUser
 {
     //
     //
@@ -36,7 +37,7 @@ class ControllerLogin extends \MFLPHP\Abstracts\PageControllerUser
      * @return null
      *
      * @version 22.04.2017
-     * @author Дмитрий Щербаков <atomcms@ya.ru>
+     * @author  Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function start($request, $response, $service, $di)
     {
@@ -44,19 +45,21 @@ class ControllerLogin extends \MFLPHP\Abstracts\PageControllerUser
             'token',
         ]);
         if ($middleware) {
-            $login  = new ActionLogin($di);
+            $login = new ActionLogin($di);
             $result = $login->run($request->param('email'), $request->param('password'));
 
             if ($result['error'] === false) {
                 $response->redirect(Settings::PATH_SHORT_ROOT, 200);
             } else {
-                $service->title         = $di->auth->config->site_name;
+                $service->title = $di->auth->config->site_name;
                 $service->external_page = true;
-                $service->message_code  = 'danger';
-                $service->message_text  = $result['message'];
+                $service->message_code = 'danger';
+                $service->message_text = $result['message'];
 
                 $service->render($service->app_root_path . '/' . $this->view_prefix . 'auth.php');
             }
         }
+
+        return;
     }
 }

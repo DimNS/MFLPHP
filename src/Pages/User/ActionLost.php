@@ -3,12 +3,14 @@
  * Запрос на восстановление пароля
  *
  * @version 13.09.2016
- * @author Дмитрий Щербаков <atomcms@ya.ru>
+ * @author  Дмитрий Щербаков <atomcms@ya.ru>
  */
 
 namespace MFLPHP\Pages\User;
 
-class ActionLost extends \MFLPHP\Abstracts\ActionModel
+use MFLPHP\Abstracts\ActionModel;
+
+class ActionLost extends ActionModel
 {
     /**
      * Выполним действие
@@ -18,7 +20,7 @@ class ActionLost extends \MFLPHP\Abstracts\ActionModel
      * @return array
      *
      * @version 13.09.2016
-     * @author Дмитрий Щербаков <atomcms@ya.ru>
+     * @author  Дмитрий Щербаков <atomcms@ya.ru>
      */
     public function run($user_email)
     {
@@ -28,8 +30,8 @@ class ActionLost extends \MFLPHP\Abstracts\ActionModel
         ];
 
         // Сформируем запрос на смену пароля
-        $result = $this->di->auth->requestReset($user_email, false);
-        if ($result['error'] === false) {
+        $result_request_reset = $this->di->auth->requestReset($user_email, false);
+        if ($result_request_reset['error'] === false) {
             // Найдем ИД пользователя
             $user_info = \ORM::for_table('users')
                 ->select('id')
@@ -69,7 +71,7 @@ class ActionLost extends \MFLPHP\Abstracts\ActionModel
                 $result['message'] = 'Произошла ошибка. Пожалуйста, обратитесь к разработчику.';
             }
         } else {
-            $result['message'] = $result['message'];
+            $result['message'] = $result_request_reset['message'];
         }
 
         return $result;
